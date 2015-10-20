@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:crypt="http://springcryptoutils.com/schema/crypt"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+              http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/context
+              http://www.springframework.org/schema/context/spring-context.xsd
+              http://springcryptoutils.com/schema/crypt
+              http://springcryptoutils.com/schema/crypt.xsd
+              http://www.springframework.org/schema/aop
+              http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+<context:annotation-config/>
+<context:property-placeholder/>
+<context:component-scan base-package="org.wizindia.black" />
+    <crypt:b64SymmetricCiphererWithStaticKey
+            id="encrypter"
+            keyAlgorithm="DESede" cipherAlgorithm="DESede/CBC/PKCS5Padding"
+            key="Ds3xEA16I52XJpsUsOc4GrB8l6FiVGK/"
+            initializationVector="AQIDBAUGAQI="
+            provider="BC"
+            mode="ENCRYPT"/>
+    <crypt:b64SymmetricCiphererWithStaticKey
+            id="decrypter"
+            keyAlgorithm="DESede" cipherAlgorithm="DESede/CBC/PKCS5Padding"
+            key="Ds3xEA16I52XJpsUsOc4GrB8l6FiVGK/"
+            initializationVector="AQIDBAUGAQI="
+            provider="BC"
+    mode="DECRYPT"/>
+
+    <aop:aspectj-autoproxy />
+
+    <!--validator-->
+    <bean id="policyValidator" class="org.wizindia.black.validation.PolicyValidator"></bean>
+    <!-- workers -->
+    <bean id="userWorker" class="org.wizindia.black.worker.UserWorker"></bean>
+    <!-- Dao -->
+    <bean id="userDao" class="org.wizindia.black.jpa.UserDaoImpl"></bean>
+    <bean id="roleDao" class="org.wizindia.black.jpa.RoleDaoMock"></bean>
+    <bean id="userDaoImpl" class="org.wizindia.black.jpa.UserDaoImpl"></bean>
+    <bean id="roleDaoMock" class="org.wizindia.black.jpa.RoleDaoMock"></bean>
+    <bean id="hibernateUtil" class="org.wizindia.black.jpa.HibernateUtil"></bean>
+    <!-- Domains -->
+    <bean id="user" class="org.wizindia.black.domain.User"></bean>
+    <!-- Service -->
+    <bean id="userService" class="org.wizindia.black.service.UserService"></bean>
+    <bean id="validationService" class="org.wizindia.black.service.ValiditeService"> </bean>
+    <bean id="validatorFactory" class="org.wizindia.black.validation.ValidatorFactory">
+        <constructor-arg index="0">
+            <map>
+                <entry key="PolicyValidator" value-ref="policyValidator"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- Encrypted -->
+    <bean id="encryptedUser" class="org.wizindia.black.common.output.UserResponse"></bean>
+    <!--Utils -->
+    <bean id="userUtils" class="org.wizindia.black.utils.UserUtils"></bean>
+</beans>
