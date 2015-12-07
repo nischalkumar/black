@@ -30,7 +30,8 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Roles> rolesSet;
 
-    public User() {
+    //The default constructor only exists for the sake of JPA. You won’t use it directly, so it is designated as protected
+    protected User() {
     }
 
     public User(User user) {

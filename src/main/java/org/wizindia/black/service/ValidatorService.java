@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by hari_om on 12/10/15.
  */
-public class ValiditeService {
+public class ValidatorService {
     @Autowired
     ValidatorFactory validatorFactory;
 

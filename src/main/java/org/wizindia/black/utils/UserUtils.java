@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.domain.User;
-import org.wizindia.black.common.output.UserResponse;
+import org.wizindia.black.common.response.UserResponse;
 
 import java.util.Collections;
 import java.util.Set;

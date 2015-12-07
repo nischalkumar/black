@@ -48,7 +48,7 @@
     <bean id="user" class="org.wizindia.black.domain.User"></bean>
     <!-- Service -->
     <bean id="userService" class="org.wizindia.black.service.UserService"></bean>
-    <bean id="validationService" class="org.wizindia.black.service.ValiditeService"> </bean>
+    <bean id="validationService" class="org.wizindia.black.service.ValidatorService"> </bean>
     <bean id="validatorFactory" class="org.wizindia.black.validation.ValidatorFactory">
         <constructor-arg index="0">
             <map>
@@ -58,7 +58,7 @@
     </bean>
 
     <!-- Encrypted -->
-    <bean id="encryptedUser" class="org.wizindia.black.common.output.UserResponse"></bean>
+    <bean id="encryptedUser" class="org.wizindia.black.common.response.UserResponse"></bean>
     <!--Utils -->
     <bean id="userUtils" class="org.wizindia.black.utils.UserUtils"></bean>
 </beans>

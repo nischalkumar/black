@@ -1,4 +1,4 @@
-package org.wizindia.black.common.output;
+package org.wizindia.black.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

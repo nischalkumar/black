@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.wizindia.black.common.output.UserResponse;
+import org.wizindia.black.common.response.UserResponse;
+import org.wizindia.black.domain.User;
 import org.wizindia.black.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class UserController extends AuthController{
 
     /*
     http://127.0.0.1:8090/v1/user/admin
-    output:
+    response:
     {
         "id": 1,
         "name": "Admin",
@@ -79,8 +80,8 @@ public class UserController extends AuthController{
             consumes = {"application/json"},
             produces = {"application/json"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserResponse insertUser(@AuthenticationPrincipal@RequestBody UserResponse encryptedUser,
+    public UserResponse insertUser(@AuthenticationPrincipal@RequestBody User user,
                                HttpServletRequest request, HttpServletResponse response) {
-        return userService.insertUser(encryptedUser, getUser(SecurityContextHolder.getContext().getAuthentication()));
+        return userService.insertUser(user, getUser(SecurityContextHolder.getContext().getAuthentication()));
     }
 }
