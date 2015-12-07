@@ -41,4 +41,8 @@ public interface FileSystem {
     Never returns a null. A checked exception must be thrown if nothing exists at the path specified.
      */
     boolean move(String currentPath, String destination);
+
+    String getFileSavePath(String context, String fileName);
+
+    String getDownloadLink(String fileName);
 }

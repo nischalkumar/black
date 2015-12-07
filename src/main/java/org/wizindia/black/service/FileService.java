@@ -1,14 +1,18 @@
 package org.wizindia.black.service;
 
+import com.springcryptoutils.core.cipher.symmetric.Base64EncodedCiphererWithStaticKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.domain.User;
 import org.wizindia.black.jpa.FileDao;
+import org.wizindia.black.jpa.FileSystem;
+import org.wizindia.black.utils.FileSystemUtils;
 import org.wizindia.black.validation.PolicyValidatorContext;
 import org.wizindia.black.validation.ValidatorContextMapBuilder;
 import org.wizindia.black.validation.ValidatorEnum;
@@ -26,7 +30,9 @@ public class FileService {
     @Autowired
     ValidatorService validatorService;
     @Autowired
-    FileDao fileDao;
+    FileSystemFactory fileSystemFactory;
+    @Autowired
+    FileSystemUtils fileSystemUtils;
 
     final static Logger logger = LoggerFactory.getLogger(FileService.class);
 
@@ -40,20 +46,8 @@ public class FileService {
                 .addValidator(ValidatorEnum.FileSizeValidator, file.getSize())
                 .build();
         validatorService.validate(validatorContextMap);
-        byte[] bytes = file.getBytes();
-        BufferedOutputStream stream =
-                new BufferedOutputStream(new FileOutputStream(new File(getFileSavePath(context))));
-        stream.write(bytes);
-        stream.close();
-        long id = fileDao.save(fileName);
-        return new FileUploadResponse(Long.toString(id) , getDownloadLink(id));
-    }
-
-    private String getFileSavePath(String context) {
-        return null;
-    }
-
-    public String getDownloadLink(long id) {
-        return null;
+        FileSystem fileSystem = fileSystemFactory.getFileSystem();
+        String finalContext = fileSystem.save(fileSystem.getFileSavePath(context, fileName), file);
+        return new FileUploadResponse(fileName , fileSystemUtils.getDownloadLink(finalContext));
     }
 }

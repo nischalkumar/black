@@ -1,6 +1,7 @@
 package org.wizindia.black.jpa;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.wizindia.black.common.Configs;
 
 import java.util.List;
 
@@ -31,5 +32,15 @@ public class LocalFileSystem implements FileSystem {
     @Override
     public boolean move(String currentPath, String destination) {
         return false;
+    }
+
+    @Override
+    public String getFileSavePath(String context, String filePath) {
+        return Configs.primaryPath + context.replace(",", "/") + filePath;
+    }
+
+    @Override
+    public String getDownloadLink(String fileName) {
+        return null;
     }
 }

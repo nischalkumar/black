@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.wizindia.black.utils.Config;
+import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.domain.Roles;
 import org.wizindia.black.domain.User;
@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
         try {
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            transaction.setTimeout(Config.TIMEOUT);
+            transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from User where login= :login");
             query.setParameter("login", login);
             List<User> userList = query.list();
@@ -64,7 +64,7 @@ public class UserDaoImpl implements UserDao {
         try {
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            transaction.setTimeout(Config.TIMEOUT);
+            transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from User where login= :login and password= :password");
             query.setParameter("login", login);
             query.setParameter("password", password);
@@ -97,7 +97,7 @@ public class UserDaoImpl implements UserDao {
         try {
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            transaction.setTimeout(Config.TIMEOUT);
+            transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from User where id= :userId");
             query.setParameter("userId", userId);
             user = (User) query.list().get(0);
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
         try {
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            transaction.setTimeout(Config.TIMEOUT);
+            transaction.setTimeout(Configs.TIMEOUT);
             session.save(user);
             Set<Roles> rolesSet=new HashSet<Roles>();
             for(Role role: roleSet) {

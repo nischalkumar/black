@@ -1,5 +1,7 @@
 package org.wizindia.black.common;
 
+import org.wizindia.black.jpa.FileSystem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,4 +19,12 @@ public class Configs {
     public static final int FileMinSize = 20;
 
     public static final List<String> allowedFileExtension= new ArrayList<>(Arrays.asList("jpg", "jpeg", "doc", "docx", "png", "pdf"));
+
+    public static final int TIMEOUT = 500;
+
+    public static final String filePathSeparator = ".";
+
+    //Separator must be present at the end
+    public static final String FileSystem = "LOCAL_FILE_SYSTEM";
+    public static final String primaryPath = "/var/wizindia/";
 }
