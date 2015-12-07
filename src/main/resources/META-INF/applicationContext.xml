@@ -36,6 +36,9 @@
 
     <!--validator-->
     <bean id="policyValidator" class="org.wizindia.black.validation.PolicyValidator"></bean>
+    <bean id="fileNameValidator" class="org.wizindia.black.validation.FileNameValidator"></bean>
+    <bean id="fileSizeValidator" class="org.wizindia.black.validation.FileSizeValidator"></bean>
+    <bean id="fileExtensionValidator" class="org.wizindia.black.validation.FileExtensionValidator"></bean>
     <!-- workers -->
     <bean id="userWorker" class="org.wizindia.black.worker.UserWorker"></bean>
     <!-- Dao -->
@@ -44,6 +47,7 @@
     <bean id="userDaoImpl" class="org.wizindia.black.jpa.UserDaoImpl"></bean>
     <bean id="roleDaoMock" class="org.wizindia.black.jpa.RoleDaoMock"></bean>
     <bean id="hibernateUtil" class="org.wizindia.black.jpa.HibernateUtil"></bean>
+    <bean id="fileSystem" class="org.wizindia.black.jpa.FileSystem"></bean>
     <!-- Domains -->
     <bean id="user" class="org.wizindia.black.domain.User"></bean>
     <!-- Service -->
@@ -53,6 +57,9 @@
         <constructor-arg index="0">
             <map>
                 <entry key="PolicyValidator" value-ref="policyValidator"/>
+                <entry key="FileNameValidator" value-ref="policyValidator"/>
+                <entry key="FileExtensionValidator" value-ref="policyValidator"/>
+                <entry key="FileSizeValidator" value-ref="policyValidator"/>
             </map>
         </constructor-arg>
     </bean>
