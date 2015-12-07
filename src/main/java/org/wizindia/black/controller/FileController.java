@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.wizindia.black.common.request.FileUploadRequest;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.service.FileService;
@@ -30,9 +31,9 @@ public class FileController extends AuthController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {"application/json"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public FileUploadResponse uploadFile(@AuthenticationPrincipal @RequestBody FileUploadRequest fileUploadRequest, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        logger.info("File upload request recieved with payload: " + fileUploadRequest.getFile() + " with size: " + fileUploadRequest.getFile().getSize());
-        return fileService.saveFile(getUser(SecurityContextHolder.getContext().getAuthentication()), fileUploadRequest.getFileName(), fileUploadRequest.getFile(), fileUploadRequest.getContext());
+    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_name") String fileName, @RequestParam("context") String context, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        logger.info("File upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
+        return fileService.saveFile(getUser(SecurityContextHolder.getContext().getAuthentication()), fileName, file, context);
     }
 
 

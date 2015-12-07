@@ -10,20 +10,15 @@ import java.io.File;
 public class FileUploadRequest {
 
     private String fileName;
-    private MultipartFile file;
     private String context;
 
-    public FileUploadRequest(String fileName, MultipartFile file) {
+    public FileUploadRequest(String fileName, String context) {
         this.fileName = fileName;
-        this.file = file;
+        this.context = context;
     }
 
     public String getFileName() {
         return fileName;
-    }
-
-    public MultipartFile getFile() {
-        return file;
     }
 
     public String getContext() {

@@ -47,19 +47,21 @@
     <bean id="userDaoImpl" class="org.wizindia.black.jpa.UserDaoImpl"></bean>
     <bean id="roleDaoMock" class="org.wizindia.black.jpa.RoleDaoMock"></bean>
     <bean id="hibernateUtil" class="org.wizindia.black.jpa.HibernateUtil"></bean>
-    <bean id="fileSystem" class="org.wizindia.black.jpa.FileSystem"></bean>
+    <bean id="fileSystem" class="org.wizindia.black.jpa.LocalFileSystem"></bean>
     <!-- Domains -->
     <bean id="user" class="org.wizindia.black.domain.User"></bean>
     <!-- Service -->
     <bean id="userService" class="org.wizindia.black.service.UserService"></bean>
     <bean id="validationService" class="org.wizindia.black.service.ValidatorService"> </bean>
+    <bean id="fileService" class="org.wizindia.black.service.FileService"> </bean>
+    <bean id="fileSystemFactory" class="org.wizindia.black.service.FileSystemFactory"></bean>
     <bean id="validatorFactory" class="org.wizindia.black.validation.ValidatorFactory">
         <constructor-arg index="0">
             <map>
                 <entry key="PolicyValidator" value-ref="policyValidator"/>
-                <entry key="FileNameValidator" value-ref="policyValidator"/>
-                <entry key="FileExtensionValidator" value-ref="policyValidator"/>
-                <entry key="FileSizeValidator" value-ref="policyValidator"/>
+                <entry key="FileNameValidator" value-ref="fileNameValidator"/>
+                <entry key="FileExtensionValidator" value-ref="fileExtensionValidator"/>
+                <entry key="FileSizeValidator" value-ref="fileSizeValidator"/>
             </map>
         </constructor-arg>
     </bean>
@@ -68,4 +70,5 @@
     <bean id="encryptedUser" class="org.wizindia.black.common.response.UserResponse"></bean>
     <!--Utils -->
     <bean id="userUtils" class="org.wizindia.black.utils.UserUtils"></bean>
+    <bean id="fileSystemUtils" class="org.wizindia.black.utils.FileSystemUtils"></bean>
 </beans>

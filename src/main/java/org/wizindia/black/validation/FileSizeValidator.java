@@ -17,7 +17,7 @@ public class FileSizeValidator implements Validator {
 
     @Override
     public List<? extends ValidationError> validate(Object object) {
-        int size = (int)object;
+        long size = (long)object;
         if (size < fileMinSize)
             return Arrays.asList(ValidationErrorCode.FileSizeLessThanExpected);
         if (size > fileMaxSize)

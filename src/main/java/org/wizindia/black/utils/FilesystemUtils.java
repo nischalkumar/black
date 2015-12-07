@@ -7,6 +7,8 @@ import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.FileSystemEnum;
 import org.wizindia.black.jpa.FileSystem;
 
+import java.io.File;
+
 /**
  * Created by nischal.k on 07/12/15.
  */

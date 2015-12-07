@@ -1,5 +1,6 @@
 package org.wizindia.black.service;
 
+import com.google.common.io.Files;
 import com.springcryptoutils.core.cipher.symmetric.Base64EncodedCiphererWithStaticKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class FileService {
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
                 .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
                 .addValidator(ValidatorEnum.FileNameValidator, fileName)
-                .addValidator(ValidatorEnum.FileExtensionValidator, file.getOriginalFilename())
+                .addValidator(ValidatorEnum.FileExtensionValidator, file.getName())
                 .addValidator(ValidatorEnum.FileSizeValidator, file.getSize())
                 .build();
         validatorService.validate(validatorContextMap);

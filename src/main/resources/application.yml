@@ -14,8 +14,8 @@ spring.jmx:
 spring.datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/black
-    username: root
-    password: happyinbit
+    username: black
+    password: mypassword
 
 server:
   port: 8444
