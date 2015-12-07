@@ -56,6 +56,7 @@ public class LocalFileSystem implements FileSystem {
     public boolean move(String currentPath, String destination) throws IOException {
         Path movefrom = FileSystems.getDefault().getPath(currentPath);
         Path target = FileSystems.getDefault().getPath(destination);
+        Files.move(movefrom, target, StandardCopyOption.REPLACE_EXISTING);
         return true;
     }
 }
