@@ -9,12 +9,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import static java.nio.file.StandardCopyOption.*;
+import java.nio.file.*;
 
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+
 import java.util.List;
 
 /**
@@ -24,9 +21,10 @@ public class LocalFileSystem implements FileSystem {
 
     public final static String PERMISSION_READ_WRITE = "rw";
     @Override
-    public String save(String path, MultipartFile file) throws IOException,NullPointerException {
-        File convFile = new File(path);
-        convFile.createNewFile();
+    public String save(String path, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException {
+        Path pathToFile = Paths.get(path);
+        Files.createDirectories(pathToFile.getParent());
+        File convFile = Files.createFile(pathToFile).toFile();
         FileChannel channel = new RandomAccessFile(convFile, PERMISSION_READ_WRITE).getChannel();
         FileLock lock = channel.lock();
         FileOutputStream fos = new FileOutputStream(convFile);

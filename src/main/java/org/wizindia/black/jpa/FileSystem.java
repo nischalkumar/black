@@ -13,7 +13,7 @@ public interface FileSystem {
     saves MultipartFile at the give location.
     if the path does not exist, The path is created. and the file is saved.
      */
-    String save (String path, MultipartFile file) throws IOException,NullPointerException;
+    String save (String path, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException;
 
     /*
     returns List of MultiPart File at the path specified.
