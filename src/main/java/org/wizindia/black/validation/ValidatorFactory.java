@@ -1,6 +1,6 @@
 package org.wizindia.black.validation;
 
-import org.wizindia.black.exception.ValidationNotFoundException;
+import org.wizindia.black.exception.ValidatorNotFoundException;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class ValidatorFactory {
     public Validator getValidator(ValidatorEnum validatorEnum) {
         Validator validator = validatorEnumValidatorMap.get(validatorEnum);
         if(validator == null)
-            throw new ValidationNotFoundException();
+            throw new ValidatorNotFoundException();
         return validator;
     }
 }

@@ -46,6 +46,7 @@ public class FileService {
                 .addValidator(ValidatorEnum.FileExtensionValidator, file.getName())
                 .addValidator(ValidatorEnum.FileSizeValidator, file.getSize())
                 .build();
+        //TODO: check the return value of validtor. take proper steps to throw checked exceptions
         validatorService.validate(validatorContextMap);
         FileSystem fileSystem = fileSystemFactory.getFileSystem();
         String finalContext = fileSystem.save(fileSystem.getFileSavePath(context, fileName), file);
