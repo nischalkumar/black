@@ -52,6 +52,7 @@
         <!-- Names the annotated entity class -->
         <mapping class="org.wizindia.black.domain.User"/>
         <mapping class="org.wizindia.black.domain.Roles"/>
+        <mapping class="org.wizindia.black.domain.Feed"/>
     </session-factory>
 
 </hibernate-configuration>

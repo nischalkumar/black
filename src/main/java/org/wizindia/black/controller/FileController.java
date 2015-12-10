@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping(value = "/v1/file")
-@Api(value = "file", description = "File Upload/Download Controller")
+@Api(value = "file", description = "Feed Upload/Download Controller")
 public class FileController extends AuthController {
 
     @Autowired
@@ -29,12 +29,10 @@ public class FileController extends AuthController {
 
     final static Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = {"application/json"})
+    @RequestMapping(value = "", method = RequestMethod.POST, produces = {"application/json"})
     @ResponseStatus(HttpStatus.ACCEPTED)
     public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_name") String fileName, @RequestParam("context") String context, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        logger.info("File upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
+        logger.info("Feed upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
         return fileService.saveFile(getUser(SecurityContextHolder.getContext().getAuthentication()), fileName, file, context);
     }
-
-
 }

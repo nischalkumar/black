@@ -1,5 +1,7 @@
 package org.wizindia.black.validation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileSystemUtils;
 import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.ValidationErrorCode;
 
@@ -13,19 +15,15 @@ import java.util.List;
  */
 public class FileExtensionValidator implements Validator {
     List<String> allowedExtensions = Configs.allowedFileExtension;
+
+    @Autowired
+    org.wizindia.black.utils.FileSystemUtils fileSystemUtils;
+
     @Override
     public List<? extends ValidationError> validate(Object object) {
-        String extension = getFileExtension((String) object);
+        String extension = fileSystemUtils.getFileExtension((String) object);
         if(allowedExtensions.contains(extension))
             return Arrays.asList(ValidationErrorCode.FileExtensionNotSupported);
         return new ArrayList<>();
-    }
-
-    private String getFileExtension(String name) {
-        try {
-            return name.substring(name.lastIndexOf(".") + 1);
-        } catch (Exception e) {
-            return "";
-        }
     }
 }

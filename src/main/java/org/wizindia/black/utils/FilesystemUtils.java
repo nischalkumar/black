@@ -17,7 +17,15 @@ public class FileSystemUtils {
     @Qualifier("encrypter")
     private Base64EncodedCiphererWithStaticKey encrypter;
 
-    public String getDownloadLink(String finalContext) {
-        return encrypter.encrypt(finalContext);
+    public String getDownloadLink(String finalContext, String originalFileName, String fileName) {
+        return Configs.baseUrl+"/v1/file/"+encrypter.encrypt(finalContext + "/" + fileName);
+    }
+
+    public String getFileExtension(String name) {
+        try {
+            return name.substring(name.lastIndexOf(".") + 1);
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

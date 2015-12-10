@@ -16,7 +16,7 @@ public interface FileSystem {
     String save (String path, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException;
 
     /*
-    returns List of MultiPart File at the path specified.
+    returns List of MultiPart Feed at the path specified.
     if the path is folder then it returns all the files, else returns only one file.
     Never returns a null. A checked exception must be thrown if nothing exists at the path specified.
      */

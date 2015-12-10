@@ -6,10 +6,10 @@ import org.wizindia.black.validation.ValidationError;
  * Created by nischal.k on 07/12/15.
  */
 public enum ValidationErrorCode implements ValidationError{
-    FileNameMoreThanExpected(100, "File Name has more than allowed characters"),
-    FileSizeMoreThanExpected(101, "File size more than allowed size"),
-    FileSizeLessThanExpected(102, "File size less than allowed size"),
-    FileExtensionNotSupported(103, "File extension is not supported");
+    FileNameMoreThanExpected(100, "Feed Name has more than allowed characters"),
+    FileSizeMoreThanExpected(101, "Feed size more than allowed size"),
+    FileSizeLessThanExpected(102, "Feed size less than allowed size"),
+    FileExtensionNotSupported(103, "Feed extension is not supported");
 
     private int code;
     private String message;

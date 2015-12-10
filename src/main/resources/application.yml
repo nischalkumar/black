@@ -1,6 +1,6 @@
 ### This is the main way to configure the application (other than annotations).
 ### This fils is in Yaml format but you can also do this using the traditional
-### Java properties file.
+### Java properties feed.
 
 spring:
   profiles.active: default
@@ -39,7 +39,7 @@ management:
 project:
   name: black
   version: 0.1
-  description: file upload & download
+  description: feed upload & download
 info:
   build:
     artifact: ${project.artifactId}
@@ -47,6 +47,6 @@ info:
     description: ${project.description}
     version: ${project.version}
 
-logging.file: /var/log/wizindia/black/backend.log
+logging.feed: /var/log/wizindia/black/backend.log
 logging.level.org.springframework.web: DEBUG
 logging.level.org.hibernate: ERROR

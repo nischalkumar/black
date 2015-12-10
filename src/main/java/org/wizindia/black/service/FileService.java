@@ -1,26 +1,24 @@
 package org.wizindia.black.service;
 
-import com.google.common.io.Files;
-import com.springcryptoutils.core.cipher.symmetric.Base64EncodedCiphererWithStaticKey;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.domain.User;
-import org.wizindia.black.jpa.FileDao;
+import org.wizindia.black.exception.ValidationException;
 import org.wizindia.black.jpa.FileSystem;
 import org.wizindia.black.utils.FileSystemUtils;
 import org.wizindia.black.validation.PolicyValidatorContext;
+import org.wizindia.black.validation.ValidationError;
 import org.wizindia.black.validation.ValidatorContextMapBuilder;
 import org.wizindia.black.validation.ValidatorEnum;
+import org.wizindia.black.worker.FeedWorker;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +32,8 @@ public class FileService {
     FileSystemFactory fileSystemFactory;
     @Autowired
     FileSystemUtils fileSystemUtils;
+    @Autowired
+    FeedWorker feedWorker;
 
     final static Logger logger = LoggerFactory.getLogger(FileService.class);
 
@@ -47,9 +47,13 @@ public class FileService {
                 .addValidator(ValidatorEnum.FileSizeValidator, file.getSize())
                 .build();
         //TODO: check the return value of validtor. take proper steps to throw checked exceptions
-        validatorService.validate(validatorContextMap);
+        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
+        if(CollectionUtils.isNotEmpty(validationErrorList)) {
+            throw new ValidationException(validationErrorList);
+        }
         FileSystem fileSystem = fileSystemFactory.getFileSystem();
-        String finalContext = fileSystem.save(fileSystem.getFileSavePath(context, fileName), file);
-        return new FileUploadResponse(fileName , fileSystemUtils.getDownloadLink(finalContext));
+        fileSystem.save(fileSystem.getFileSavePath(context, fileName), file);
+        feedWorker.save(context, fileName, user.getId().longValue());
+        return new FileUploadResponse(fileSystemUtils.getDownloadLink(context, file.getOriginalFilename(), fileName));
     }
 }
