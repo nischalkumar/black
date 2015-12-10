@@ -2,6 +2,7 @@ package org.wizindia.black.jpa;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface FileSystem {
     if the path is folder then it returns all the files, else returns only one file.
     Never returns a null. A checked exception must be thrown if nothing exists at the path specified.
      */
-    List<MultipartFile> get(String path, boolean isOnlyFileNameRequired);
+    List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException,NullPointerException;
 
     /*
     deletes file at the current path.
