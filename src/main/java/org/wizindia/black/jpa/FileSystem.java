@@ -21,7 +21,7 @@ public interface FileSystem {
     if the path is folder then it returns all the files, else returns only one file.
     Never returns a null. A checked exception must be thrown if nothing exists at the path specified.
      */
-    List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException,NullPointerException;
+    List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException;
 
     /*
     deletes file at the current path.
@@ -32,10 +32,10 @@ public interface FileSystem {
 
     /*
     Renames the particular file.
-    Returns boolean value indicating the process was successfully completed or not.
+    Returns Full path of the renamed file indicating the process was successfully completed or not.
     Never returns a null. A checked exception must be thrown if nothing exists at the path specified.
      */
-    boolean rename(String path);
+    String rename(String path, String newName) throws IOException;
 
     /*
     move the file at current path to destination. you can not move entire folder at once.

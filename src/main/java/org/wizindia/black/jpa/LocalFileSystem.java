@@ -37,7 +37,7 @@ public class LocalFileSystem implements FileSystem {
     }
 
     @Override
-    public List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException,NullPointerException {
+    public List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException {
         List<File> fileArray = new ArrayList<>();
         Path filePath = Paths.get(path);
         File file = Files.createFile(filePath).toFile();
@@ -58,8 +58,9 @@ public class LocalFileSystem implements FileSystem {
     }
 
     @Override
-    public boolean rename(String path) {
-        return false;
+    public String rename(String path, String newName) throws IOException {
+        Path sourceFilePath = Paths.get(path);
+        return Files.move(sourceFilePath,sourceFilePath.resolveSibling(newName)).toString();
     }
 
     @Override
