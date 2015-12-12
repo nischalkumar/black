@@ -8,6 +8,8 @@ import org.wizindia.black.common.Enums.FileSystemEnum;
 import org.wizindia.black.jpa.FileSystem;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by nischal.k on 07/12/15.
@@ -16,9 +18,16 @@ public class FileSystemUtils {
     @Autowired
     @Qualifier("encrypter")
     private Base64EncodedCiphererWithStaticKey encrypter;
+    @Autowired
+    @Qualifier("decrypter")
+    private Base64EncodedCiphererWithStaticKey decrypter;
 
-    public String getDownloadLink(String finalContext, String originalFileName, String fileName) {
-        return Configs.baseUrl+"/v1/file/"+encrypter.encrypt(finalContext + "/" + fileName);
+    public String getDownloadLink(final String finalContext) {
+        try {
+            return Configs.baseUrl + "/v1/file/" + (String)URLEncoder.encode(encrypter.encrypt(finalContext), "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            return new StringBuilder().toString();
+        }
     }
 
     public String getFileExtension(String name) {
@@ -27,5 +36,9 @@ public class FileSystemUtils {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public String getOriginalContextFromEncryptedOriginalContext(final String encryptedFinalContext) {
+        return decrypter.encrypt(encryptedFinalContext);
     }
 }

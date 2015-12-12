@@ -18,6 +18,8 @@ import org.wizindia.black.validation.ValidatorContextMapBuilder;
 import org.wizindia.black.validation.ValidatorEnum;
 import org.wizindia.black.worker.FeedWorker;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +39,7 @@ public class FileService {
 
     final static Logger logger = LoggerFactory.getLogger(FileService.class);
 
-    public FileUploadResponse saveFile(User user, String fileName, MultipartFile file, String context) throws Exception{
+    public FileUploadResponse saveFile(final User user, final String fileName, final MultipartFile file, final String context) throws Exception{
         PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
         policyValidatorContext.addRole(Role.ADMIN);
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
@@ -52,8 +54,17 @@ public class FileService {
             throw new ValidationException(validationErrorList);
         }
         FileSystem fileSystem = fileSystemFactory.getFileSystem();
-        fileSystem.save(fileSystem.getFileSavePath(context, fileName), file);
+        String originalContext = fileSystem.save(fileSystem.getFileSavePath(context, fileName), file);
         feedWorker.save(context, fileName, user.getId().longValue());
-        return new FileUploadResponse(fileSystemUtils.getDownloadLink(context, file.getOriginalFilename(), fileName));
+        return new FileUploadResponse(fileSystemUtils.getDownloadLink(originalContext));
+
+    }
+
+    public File getFile(final String encryptedFinalContext) {
+        FileSystem fileSystem = fileSystemFactory.getFileSystem();
+        //FinalFilePathContext finalFilePathContext = feedWorker.getFinalPath(finalContext);
+        String originalContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
+        File file = (File)fileSystem.get(originalContext, false).get(0);
+        return file;
     }
 }

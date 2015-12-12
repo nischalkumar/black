@@ -4,6 +4,7 @@ import com.wordnik.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import org.wizindia.black.service.FileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
 
 /**
  * Created by nischal.k on 07/12/15.
@@ -35,4 +37,19 @@ public class FileController extends AuthController {
         logger.info("Feed upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
         return fileService.saveFile(getUser(SecurityContextHolder.getContext().getAuthentication()), fileName, file, context);
     }
+
+    @RequestMapping(value = "/{finalContext}", method = RequestMethod.GET)
+    @ResponseBody
+    public FileSystemResource getFile(@PathVariable("finalContext") String finalContext, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        logger.info("Feed upload request recieved with payload: " + finalContext);
+        finalContext = URLDecoder.decode(finalContext, "UTF-8");
+        return new FileSystemResource(fileService.getFile(finalContext));
+    }
+
+//    @RequestMapping(value = "/auth/{fileName}/{finalContext}", method = RequestMethod.GET, produces = {"application/json"})
+//    @ResponseStatus(HttpStatus.OK)
+//    public FileUploadResponse getAuthFile(@AuthenticationPrincipal @PathVariable("finalContext") String finalContext, HttpServletRequest request, HttpServletResponse response) throws Exception{
+//        logger.info("Feed upload request recieved with payload: " + finalContext);
+//        return fileService.getFile(getUser(SecurityContextHolder.getContext().getAuthentication()), finalContext);
+//    }
 }
