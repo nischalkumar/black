@@ -42,7 +42,6 @@ public class FileController extends AuthController {
     @ResponseBody
     public FileSystemResource getFile(@PathVariable("finalContext") String finalContext, HttpServletRequest request, HttpServletResponse response) throws Exception{
         logger.info("Feed upload request recieved with payload: " + finalContext);
-        finalContext = URLDecoder.decode(finalContext, "UTF-8");
         return new FileSystemResource(fileService.getFile(finalContext));
     }
 
