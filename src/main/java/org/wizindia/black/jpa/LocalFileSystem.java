@@ -12,6 +12,7 @@ import java.nio.channels.FileLock;
 import java.nio.file.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,8 +37,18 @@ public class LocalFileSystem implements FileSystem {
     }
 
     @Override
-    public List<MultipartFile> get(String path, boolean isOnlyFileNameRequired) {
-        return null;
+    public List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException {
+        List<File> fileArray = new ArrayList<>();
+        Path filePath = Paths.get(path);
+        File file = Files.createFile(filePath).toFile();
+        if (file.isFile()) {
+            fileArray.add(file);
+        }else {
+            for (File tempFile: file.listFiles()){
+                if (tempFile.isFile()) fileArray.add(tempFile);
+            }
+        }
+        return fileArray;
     }
 
     @Override
@@ -47,8 +58,9 @@ public class LocalFileSystem implements FileSystem {
     }
 
     @Override
-    public boolean rename(String path) {
-        return false;
+    public String rename(String path, String newName) throws IOException {
+        Path sourceFilePath = Paths.get(path);
+        return Files.move(sourceFilePath,sourceFilePath.resolveSibling(newName)).toString();
     }
 
     @Override
