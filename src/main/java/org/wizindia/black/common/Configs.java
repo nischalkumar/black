@@ -27,5 +27,5 @@ public class Configs {
     //Separator must be present at the end
     public static final String FileSystem = "LOCAL_FILE_SYSTEM";
     public static final String primaryPath = "/var/wizindia/";
-    public static final String baseUrl = "https://127.0.0.1:8444";
+    public static final String baseUrl = "127.0.0.1:8444";
 }

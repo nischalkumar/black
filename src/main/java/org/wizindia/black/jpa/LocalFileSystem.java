@@ -39,8 +39,8 @@ public class LocalFileSystem implements FileSystem {
     @Override
     public List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException {
         List<File> fileArray = new ArrayList<>();
-        Path filePath = Paths.get(path);
-        File file = Files.createFile(filePath).toFile();
+        //Path filePath = Paths.get(path);
+        File file = new File(path);
         if (file.isFile()) {
             fileArray.add(file);
         }else {

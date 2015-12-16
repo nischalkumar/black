@@ -19,6 +19,7 @@ import org.wizindia.black.validation.ValidatorEnum;
 import org.wizindia.black.worker.FeedWorker;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class FileService {
 
     }
 
-    public File getFile(final String encryptedFinalContext) {
+    public File getFile(final String encryptedFinalContext) throws IOException {
         FileSystem fileSystem = fileSystemFactory.getFileSystem();
         //FinalFilePathContext finalFilePathContext = feedWorker.getFinalPath(finalContext);
         String originalContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
