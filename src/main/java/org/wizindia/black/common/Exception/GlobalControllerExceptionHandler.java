@@ -31,6 +31,6 @@ public class GlobalControllerExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void handleConflict() {
-        logger.error(exception.getMessage());
+//        logger.error(exception.getMessage());
     }
 }
