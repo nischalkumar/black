@@ -14,15 +14,11 @@ spring.jmx:
 spring.datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/black
-    username: black
-    password: mypassword
+    username: root
+    password: happyinbit
 
 server:
   port: 8444
-  ssl.key-store: keystore.p12
-  ssl.key-store-password: happyinbit
-  ssl.keyStoreType: PKCS12
-  ssl.keyAlias: tomcat
 
 #todo: make sure to always enable security in production
 security:

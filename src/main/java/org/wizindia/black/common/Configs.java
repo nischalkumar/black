@@ -1,7 +1,5 @@
 package org.wizindia.black.common;
 
-import org.wizindia.black.jpa.FileSystem;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,5 +25,5 @@ public class Configs {
     //Separator must be present at the end
     public static final String FileSystem = "LOCAL_FILE_SYSTEM";
     public static final String primaryPath = "/var/wizindia/";
-    public static final String baseUrl = "127.0.0.1:8444";
+    public static final String baseUrl = "192.168.1.107:8444";
 }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.domain.User;
@@ -20,6 +21,7 @@ import org.wizindia.black.worker.FeedWorker;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +67,19 @@ public class FileService {
         //FinalFilePathContext finalFilePathContext = feedWorker.getFinalPath(finalContext);
         String originalContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
         File file = (File)fileSystem.get(originalContext, false).get(0);
+        return file;
+    }
+
+    public List<String> getTestFileList() throws IOException {
+        List<String> fileList = new ArrayList<>();
+        for ( int i =0; i<10; i++)
+            fileList.add("http://" + Configs.baseUrl + "/v1/file" + "/test/"+i);
+        return fileList;
+    }
+
+    public File getTestFile(String context) throws IOException {
+        context= context+".jpg";
+        File file = new File("/var/log/wizindia/classroome/"+context);
         return file;
     }
 }

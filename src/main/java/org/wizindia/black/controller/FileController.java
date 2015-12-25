@@ -6,17 +6,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.wizindia.black.common.request.FileUploadRequest;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.service.FileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLDecoder;
+import java.util.List;
 
 /**
  * Created by nischal.k on 07/12/15.
@@ -51,4 +50,18 @@ public class FileController extends AuthController {
 //        logger.info("Feed upload request recieved with payload: " + finalContext);
 //        return fileService.getFile(getUser(SecurityContextHolder.getContext().getAuthentication()), finalContext);
 //    }
+@RequestMapping(value = "/test", method = RequestMethod.GET)
+@ResponseBody
+public List<String> getFileList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    logger.info("Feed upload request recieved with payload: " );
+    return fileService.getTestFileList();
+}
+
+    @RequestMapping(value = "/test/{finalContext}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public FileSystemResource getFileListContext(@PathVariable("finalContext") String finalContext, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        logger.info("Feed upload request recieved with payload: " + finalContext);
+        return new FileSystemResource(fileService.getTestFile(finalContext));
+    }
+
 }
