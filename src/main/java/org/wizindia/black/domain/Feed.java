@@ -14,8 +14,9 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long feedId;
 
-    @Column(name = "context_id")
-    private Context context;
+    @JoinColumn(name = "context_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    protected Context context;
 
     @Column(name = "file_name")
     private String fileName;

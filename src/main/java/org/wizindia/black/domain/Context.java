@@ -1,15 +1,12 @@
 package org.wizindia.black.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 
 /**
  * Created by nischal.k on 26/12/15.
  */
 @Entity
-@Table(name = "Context")
+@Table(name = "feed")
 public class Context {
 
     @Id

@@ -73,4 +73,5 @@
     <!--Utils -->
     <bean id="userUtils" class="org.wizindia.black.utils.UserUtils"></bean>
     <bean id="fileSystemUtils" class="org.wizindia.black.utils.FileSystemUtils"></bean>
+    <bean id="feedUtils" class="org.wizindia.black.utils.FeedUtils"></bean>
 </beans>

@@ -53,6 +53,7 @@
         <mapping class="org.wizindia.black.domain.User"/>
         <mapping class="org.wizindia.black.domain.Roles"/>
         <mapping class="org.wizindia.black.domain.Feed"/>
+        <mapping class="org.wizindia.black.domain.Context"/>
     </session-factory>
 
 </hibernate-configuration>
