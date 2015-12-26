@@ -15,7 +15,7 @@ public class PolicyValidator implements Validator {
     public List<? extends ValidationError> validate(Object object) {
         List<ValidationErrorCode> validationErrorCodeList = new ArrayList<>();
         PolicyValidatorContext policyValidatorContext = (PolicyValidatorContext) object;
-        if(policyValidatorContext.getUser().getRolesSet().contains(Role.ADMIN))
+        if(policyValidatorContext.getUser().getRoles().contains(Role.ADMIN))
             return new ArrayList<>();
         for( Role role: policyValidatorContext.getRoleList()) {
             if(!policyValidatorContext.getUser().getRolesSet().contains(role)) {

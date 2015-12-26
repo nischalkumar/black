@@ -29,7 +29,8 @@ public class FeedWorker {
     }
 
     public ContextRequest save(ContextRequest contextRequest) {
-        return feedDao.save(contextRequest);
+        Context context = new Context(contextRequest.getFolderPath(), contextRequest.getMaxFileSize(), contextRequest.getMinFileSize(), contextRequest.getAllowedExtensions(), contextRequest.isAuthRequired());
+        return feedUtils.getContextRequest(feedDao.save(context));
     }
 
     public Context getContext(long contextId) {

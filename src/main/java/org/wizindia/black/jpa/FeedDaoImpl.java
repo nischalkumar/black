@@ -115,14 +115,14 @@ public class FeedDaoImpl implements FeedDao {
     }
 
     @Override
-    public ContextRequest save(ContextRequest contextRequest) {
+    public Context save(Context context) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
-            session.save(contextRequest);
+            session.save(context);
             transaction.commit();
         } catch (RuntimeException e) {
             try{
@@ -137,7 +137,7 @@ public class FeedDaoImpl implements FeedDao {
                 session.close();
             }
         }
-        return contextRequest;
+        return context;
     }
 
     @Override

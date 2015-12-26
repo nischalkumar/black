@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by nischal.k on 26/12/15.
  */
 @Entity
-@Table(name = "feed")
+@Table(name = "context")
 public class Context {
 
     @Id
@@ -33,6 +33,7 @@ public class Context {
     }
 
     public Context(String folderPath, long maxFileSize, long minFileSize, String allowedExtensions, boolean isAuthRequired) {
+        this.contextId = 0;
         this.folderPath = folderPath;
         this.maxFileSize = maxFileSize;
         this.minFileSize = minFileSize;

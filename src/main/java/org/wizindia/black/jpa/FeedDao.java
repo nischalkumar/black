@@ -16,7 +16,7 @@ public interface FeedDao {
     List<Feed> get(String context, String fileName);
     Feed get(long feedId);
 
-    ContextRequest save(ContextRequest contextRequest);
+    Context save(Context context);
 
     Context getContext(long contextId);
 
