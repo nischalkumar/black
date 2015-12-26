@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.Role;
+import org.wizindia.black.common.request.ContextRequest;
+import org.wizindia.black.domain.Context;
 import org.wizindia.black.domain.Feed;
-import org.wizindia.black.domain.Roles;
-import org.wizindia.black.domain.User;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,7 +54,7 @@ public class FeedDaoImpl implements FeedDao {
     }
 
     @Override
-    public List<Feed> get(String context) {
+    public List<Feed> get(String context, String fileName) {
         Session session = null;
         Transaction transaction = null;
         List<Feed> feedList = new ArrayList<>();
@@ -62,8 +62,9 @@ public class FeedDaoImpl implements FeedDao {
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
-            Query query =session.createQuery("from Feed where context= :login");
+            Query query =session.createQuery("from Feed where context= :context and fileName= :fileName");
             query.setParameter("context", context);
+            query.setParameter("fileName", fileName);
             feedList = query.list();
             transaction.commit();
         } catch (RuntimeException e) {
@@ -111,5 +112,93 @@ public class FeedDaoImpl implements FeedDao {
             }
         }
         return feed;
+    }
+
+    @Override
+    public ContextRequest save(ContextRequest contextRequest) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            transaction.setTimeout(Configs.TIMEOUT);
+            session.save(contextRequest);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            try{
+                transaction.rollback();
+            }catch(RuntimeException rbe){
+                logger.error("Couldn’t roll back transaction", rbe);
+            }
+            throw e;
+        }
+        finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return contextRequest;
+    }
+
+    @Override
+    public Context getContext(long contextId) {
+        Session session = null;
+        Transaction transaction = null;
+        Context context = null;
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            transaction.setTimeout(Configs.TIMEOUT);
+            Query query =session.createQuery("from Context where contextId= :contextId");
+            query.setParameter("contextId", contextId);
+            List<Context> contextList = query.list();
+            if(CollectionUtils.isNotEmpty(contextList))
+                context = contextList.get(0);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            try{
+                transaction.rollback();
+            }catch(RuntimeException rbe){
+                logger.error("Couldn’t roll back transaction", rbe);
+            }
+            throw e;
+        }
+        finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return context;
+    }
+
+    @Override
+    public int markFeedDeleted(long feedId) {
+        Session session = null;
+        Transaction transaction = null;
+        int rowsUpdated = 0;
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            transaction.setTimeout(Configs.TIMEOUT);
+            Query query =session.createQuery("update Feed set deleted= : deleted where feedId= :feedId");
+            query.setParameter("deleted", true);
+            query.setParameter("feedId", feedId);
+            List<Context> contextList = query.list();
+            rowsUpdated = contextList.size();
+            transaction.commit();
+        } catch (RuntimeException e) {
+            try{
+                transaction.rollback();
+            }catch(RuntimeException rbe){
+                logger.error("Couldn’t roll back transaction", rbe);
+            }
+            throw e;
+        }
+        finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return rowsUpdated;
     }
 }

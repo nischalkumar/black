@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.wizindia.black.common.Enums.Role;
+import org.wizindia.black.common.FinalFilePathContext;
+import org.wizindia.black.common.request.ContextRequest;
 import org.wizindia.black.common.response.FileUploadResponse;
+import org.wizindia.black.domain.Context;
+import org.wizindia.black.domain.Feed;
 import org.wizindia.black.domain.User;
 import org.wizindia.black.exception.ValidationException;
 import org.wizindia.black.jpa.FileSystem;
@@ -37,9 +41,10 @@ public class FileService {
     @Autowired
     FeedWorker feedWorker;
 
+
     final static Logger logger = LoggerFactory.getLogger(FileService.class);
 
-    public FileUploadResponse saveFile(final User user, final String fileName, final MultipartFile file, final String context) throws Exception{
+    public FileUploadResponse saveFile(final User user, final String fileName, final MultipartFile file, final String encryptedContextId) throws Exception{
         PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
         policyValidatorContext.addRole(Role.ADMIN);
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
@@ -53,23 +58,47 @@ public class FileService {
         if(CollectionUtils.isNotEmpty(validationErrorList)) {
             throw new ValidationException(validationErrorList);
         }
-        FileSystem fileSystem = fileSystemFactory.getFileSystem();
-        String originalContext = fileSystem.save(fileSystem.getFileSavePath(context, fileName), file);
-        feedWorker.save(context, fileName, user.getId().longValue());
-        return new FileUploadResponse(fileSystemUtils.getDownloadLink(originalContext));
-
+        Feed feed = null;
+        try {
+            Context context = feedWorker.getContext(fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedContextId).getContextId());
+            feed = feedWorker.save(context, fileName, user.getId().longValue());
+            FileSystem fileSystem = fileSystemFactory.getFileSystem();
+            fileSystem.save(context, feed, file);
+            return new FileUploadResponse(fileSystemUtils.getDownloadLink(feed.getFeedId(), context.getContextId()));
+        } catch (Exception ex) {
+            if(feed!=null) {
+                feedWorker.markDeleted(feed.getFeedId());
+            }
+            throw ex;
+        }
     }
 
     public File getFile(final String encryptedFinalContext) throws IOException {
         FileSystem fileSystem = fileSystemFactory.getFileSystem();
         //FinalFilePathContext finalFilePathContext = feedWorker.getFinalPath(finalContext);
-        String originalContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
-        File file = (File)fileSystem.get(originalContext, false).get(0);
-        enrichFileDetails(file);
+        FinalFilePathContext finalFilePathContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
+        Context context = feedWorker.getContext(finalFilePathContext.getContextId());
+        Feed feed = feedWorker.getFeed(finalFilePathContext.getFeedId());
+        File file = (File)fileSystem.get(context, feed, false).get(0);
+        enrichFileDetails(finalFilePathContext, file);
         return file;
     }
 
-    private void enrichFileDetails(File file) {
-        Feed feed = feedWorker.
+    private void enrichFileDetails(FinalFilePathContext finalFilePathContext, File file) {
+        Feed feed = feedWorker.getFeed(finalFilePathContext.getFeedId());
+    }
+
+    public ContextRequest saveContext(User user, ContextRequest contextRequest) {
+        PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
+        policyValidatorContext.addRole(Role.ADMIN);
+        Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
+                .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
+                .build();
+        //TODO: check the return value of validtor. take proper steps to throw checked exceptions
+        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
+        if(CollectionUtils.isNotEmpty(validationErrorList)) {
+            throw new ValidationException(validationErrorList);
+        }
+        return feedWorker.save(contextRequest);
     }
 }

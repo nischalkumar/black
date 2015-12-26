@@ -2,6 +2,8 @@ package org.wizindia.black.jpa;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.wizindia.black.common.Configs;
+import org.wizindia.black.domain.Context;
+import org.wizindia.black.domain.Feed;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,8 +24,9 @@ public class LocalFileSystem implements FileSystem {
 
     public final static String PERMISSION_READ_WRITE = "rw";
     @Override
-    public String save(String path, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException {
-        Path pathToFile = Paths.get(path);
+    public String save(Context context, Feed feed, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException {
+        String path = getFileSavePath(context, feed);
+        Path pathToFile = Paths.get(context.getFolderPath() + feed.getFileName());
         Files.createDirectories(pathToFile.getParent());
         File convFile = Files.createFile(pathToFile).toFile();
         FileChannel channel = new RandomAccessFile(convFile, PERMISSION_READ_WRITE).getChannel();
@@ -37,9 +40,10 @@ public class LocalFileSystem implements FileSystem {
     }
 
     @Override
-    public List<File> get(String path, boolean isOnlyFileNameRequired) throws IOException {
+    public List<File> get(Context context, Feed feed, boolean isOnlyFileNameRequired) throws IOException {
         List<File> fileArray = new ArrayList<>();
         //Path filePath = Paths.get(path);
+        String path = context.getFolderPath() + feed.getFileName();
         File file = new File(path);
         if (file.isFile()) {
             fileArray.add(file);
@@ -72,8 +76,8 @@ public class LocalFileSystem implements FileSystem {
     }
 
     @Override
-    public String getFileSavePath(String context, String filePath) {
-        return Configs.primaryPath + context.replace(",", "/") + filePath;
+    public String getFileSavePath(Context context, Feed feed) {
+        return Configs.primaryPath + context.getFolderPath() + feed.getFileName();
     }
 
     @Override

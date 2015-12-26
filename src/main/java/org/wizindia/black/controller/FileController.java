@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.wizindia.black.common.request.ContextRequest;
 import org.wizindia.black.common.request.FileUploadRequest;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.service.FileService;
@@ -51,4 +52,11 @@ public class FileController extends AuthController {
 //        logger.info("Feed upload request recieved with payload: " + finalContext);
 //        return fileService.getFile(getUser(SecurityContextHolder.getContext().getAuthentication()), finalContext);
 //    }
+
+    @RequestMapping(value = "/context", method = RequestMethod.POST)
+    @ResponseBody
+    public ContextRequest saveContext(@AuthenticationPrincipal @RequestBody ContextRequest contextRequest, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("request recieved to save "+ contextRequest);
+        return fileService.saveContext(getUser(SecurityContextHolder.getContext().getAuthentication()), contextRequest);
+    }
 }

@@ -14,8 +14,8 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long feedId;
 
-    @Column(name = "context")
-    private String context;
+    @Column(name = "context_id")
+    private Context context;
 
     @Column(name = "file_name")
     private String fileName;
@@ -29,22 +29,35 @@ public class Feed {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
     protected Feed() {}
 
-    public Feed(String context, String fileName, Long createdOn, Long lastModified, Long userId) {
+    public Feed(Context context, String fileName, Long createdOn, Long lastModified, Long userId) {
         this.feedId = (long)0;
         this.context = context;
         this.fileName = fileName;
         this.createdOn = createdOn;
         this.lastModified = lastModified;
         this.userId = userId;
+        this.deleted = false;
+    }
+
+    public Feed(Context context, String fileName, Long createdOn, Long lastModified, Long userId, boolean deleted) {
+        this.context = context;
+        this.fileName = fileName;
+        this.createdOn = createdOn;
+        this.lastModified = lastModified;
+        this.userId = userId;
+        this.deleted = deleted;
     }
 
     public Long getFeedId() {
         return feedId;
     }
 
-    public String getContext() {
+    public Context getContext() {
         return context;
     }
 

@@ -4,19 +4,19 @@ package org.wizindia.black.common;
  * Created by nischal.k on 12/12/15.
  */
 public class FinalFilePathContext {
-    private String fileName;
-    private String fileContext;
+    private long feedId;
+    private long contextId;
 
-    public FinalFilePathContext(String fileName, String fileContext) {
-        this.fileName = fileName;
-        this.fileContext = fileContext;
+    public FinalFilePathContext(long feedId, long contextId) {
+        this.feedId = feedId;
+        this.contextId = contextId;
     }
 
-    public String getFileName() {
-        return fileName;
+    public long getFeedId() {
+        return feedId;
     }
 
-    public String getFileContext() {
-        return fileContext;
+    public long getContextId() {
+        return contextId;
     }
 }

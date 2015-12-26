@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.FileSystemEnum;
+import org.wizindia.black.common.FinalFilePathContext;
 import org.wizindia.black.jpa.FileSystem;
 
 import java.io.File;
@@ -23,14 +24,14 @@ public class FileSystemUtils {
     @Qualifier("decrypter")
     private Base64EncodedCiphererWithStaticKey decrypter;
 
-    Pattern ENCODE_REGEX_CHARS = Pattern.compile("/");
-    Pattern DECODE_REGEX_CHARS = Pattern.compile(":::::");
-
-    public String getDownloadLink(final String finalContext) {
+    private final Pattern ENCODE_REGEX_CHARS = Pattern.compile("/");
+    private final Pattern DECODE_REGEX_CHARS = Pattern.compile(":::::");
+    private final String feedIdSeparator = "+++++++++++";
+    public String getDownloadLink(final long feedId, final long contextId) {
         try {
-            String encoded = encrypter.encrypt(finalContext);
-            encoded = escapeSpecialRegexChars(encoded);
-            URL url = new URL("https://" + Configs.baseUrl + "/v1/file/" + encoded);
+            String encodedDownloadContext = encrypter.encrypt(getDownloadContext(feedId, contextId));
+            encodedDownloadContext = escapeSpecialRegexChars(encodedDownloadContext);
+            URL url = new URL("https://" + Configs.baseUrl + "/v1/file/" + encodedDownloadContext);
             String nullFragment = null;
             URI uri = new URI(url.getProtocol(), url.getHost()+":"+url.getPort(), url.getPath(), url.getQuery(), nullFragment);
 
@@ -52,8 +53,18 @@ public class FileSystemUtils {
         }
     }
 
-    public String getOriginalContextFromEncryptedOriginalContext(final String encryptedFinalContext) {
-        return decrypter.encrypt(reEscapeSpecialRegexChars(encryptedFinalContext));
+    public FinalFilePathContext getOriginalContextFromEncryptedOriginalContext(final String encryptedFinalContext) {
+        String downloadContext = decrypter.encrypt(reEscapeSpecialRegexChars(encryptedFinalContext));
+        return getInverseDownloadContext(downloadContext);
+    }
+
+    private FinalFilePathContext getInverseDownloadContext(String downloadContext) {
+        String[] ar = downloadContext.split(feedIdSeparator);
+        return new FinalFilePathContext(Long.parseLong(ar[0]), Long.parseLong(ar[1]));
+    }
+
+    private String getDownloadContext(long feedId, long contextId) {
+        return Long.toString(feedId) + feedIdSeparator + Long.toString(contextId);
     }
 
     private String escapeSpecialRegexChars(String str) {
