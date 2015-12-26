@@ -65,6 +65,11 @@ public class FileService {
         //FinalFilePathContext finalFilePathContext = feedWorker.getFinalPath(finalContext);
         String originalContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
         File file = (File)fileSystem.get(originalContext, false).get(0);
+        enrichFileDetails(file);
         return file;
+    }
+
+    private void enrichFileDetails(File file) {
+        Feed feed = feedWorker.
     }
 }

@@ -21,7 +21,7 @@ public class Roles {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @Column(name="role")
+    @Column(name="role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 

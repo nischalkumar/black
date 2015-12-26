@@ -34,6 +34,12 @@ public class User {
     protected User() {
     }
 
+    public User(String login, String password, Set<Roles> rolesSet) {
+        this.login = login;
+        this.password = password;
+        this.rolesSet = rolesSet;
+    }
+
     public User(User user) {
         super();
         this.id = user.getId();

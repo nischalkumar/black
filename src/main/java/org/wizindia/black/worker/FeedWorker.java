@@ -22,11 +22,8 @@ public class FeedWorker {
         return feed;
     }
 
-    public FinalFilePathContext getFinalPath(String finalContext) {
+    public Feed getFeed(String finalContext) {
         List<Feed> feedList = feedDao.get(finalContext);
-        if(CollectionUtils.isNotEmpty(feedList)) {
-            return new FinalFilePathContext(feedList.get(0).getFileName(), feedList.get(0).getContext());
-        }
-        return null;
+        return feedList.get(0);
     }
 }

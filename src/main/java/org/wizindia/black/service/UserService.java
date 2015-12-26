@@ -14,6 +14,7 @@ import org.wizindia.black.validation.ValidatorContextMapBuilder;
 import org.wizindia.black.validation.ValidatorEnum;
 import org.wizindia.black.worker.UserWorker;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -38,8 +39,7 @@ public class UserService {
     public UserService() {}
 
     public UserResponse getUser(String login, User user) {
-        PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
-        policyValidatorContext.addRole(Role.ADMIN);
+        PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user, Arrays.asList(Role.ADMIN));
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
                 .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
                 .build();
@@ -48,6 +48,11 @@ public class UserService {
     }
 
     public UserResponse getUser(User user) {
+        PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user, Arrays.asList(Role.ANY));
+        Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
+                .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
+                .build();
+        validatorService.validate(validatorContextMap);
         return userUtils.getEncryptedUser(user);
     }
 

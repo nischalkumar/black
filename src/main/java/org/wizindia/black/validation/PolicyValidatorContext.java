@@ -18,6 +18,11 @@ public class PolicyValidatorContext {
         this.user = user;
     }
 
+    public PolicyValidatorContext(User user, List<Role> roleList) {
+        this.roleList = roleList;
+        this.user = user;
+    }
+
     public List<Role> getRoleList() {
         return roleList;
     }
