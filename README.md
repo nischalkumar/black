@@ -8,7 +8,7 @@ Setup instruction:
 This codebase needs java 1.7 and maven. Make sure the java home is set and echo $JAVA_HOME prints soemthing similar to /usr/lib/jvm/java-7-openjdk-amd64
 
 
-1)In ClassroomBackend/src/main/resources/hibernate.cfg.xml update the below properties
+1)In black/src/main/resources/hibernate.cfg.xml update the below properties
     <property name="connection.url">jdbc:mysql://127.0.0.1:3306/black</property>
     <property name="connection.username">root</property>
     <property name="connection.password">happyinbit</property>
