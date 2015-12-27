@@ -5,9 +5,9 @@ package org.wizindia.black.common;
  */
 public class FinalFilePathContext {
     private long feedId;
-    private long contextId;
+    private String contextId;
 
-    public FinalFilePathContext(long feedId, long contextId) {
+    public FinalFilePathContext(long feedId, String contextId) {
         this.feedId = feedId;
         this.contextId = contextId;
     }
@@ -16,7 +16,7 @@ public class FinalFilePathContext {
         return feedId;
     }
 
-    public long getContextId() {
+    public String getContextId() {
         return contextId;
     }
 }

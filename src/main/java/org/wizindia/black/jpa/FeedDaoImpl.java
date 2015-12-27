@@ -141,7 +141,7 @@ public class FeedDaoImpl implements FeedDao {
     }
 
     @Override
-    public Context getContext(long contextId) {
+    public Context getContext(String contextId) {
         Session session = null;
         Transaction transaction = null;
         Context context = null;
@@ -180,7 +180,7 @@ public class FeedDaoImpl implements FeedDao {
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
-            Query query =session.createQuery("update Feed set deleted= : deleted where feedId= :feedId");
+            Query query =session.createQuery("update Feed set deleted= :deleted where feedId= :feedId");
             query.setParameter("deleted", true);
             query.setParameter("feedId", feedId);
             List<Context> contextList = query.list();

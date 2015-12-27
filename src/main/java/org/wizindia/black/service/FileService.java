@@ -15,6 +15,7 @@ import org.wizindia.black.domain.Feed;
 import org.wizindia.black.domain.User;
 import org.wizindia.black.exception.ValidationException;
 import org.wizindia.black.jpa.FileSystem;
+import org.wizindia.black.utils.FeedUtils;
 import org.wizindia.black.utils.FileSystemUtils;
 import org.wizindia.black.validation.PolicyValidatorContext;
 import org.wizindia.black.validation.ValidationError;
@@ -40,11 +41,13 @@ public class FileService {
     FileSystemUtils fileSystemUtils;
     @Autowired
     FeedWorker feedWorker;
+    @Autowired
+    FeedUtils feedUtils;
 
 
     final static Logger logger = LoggerFactory.getLogger(FileService.class);
 
-    public FileUploadResponse saveFile(final User user, final String fileName, final MultipartFile file, final String encryptedContextId) throws Exception{
+    public FileUploadResponse saveFile(final User user, final String fileName, final MultipartFile file, final String contextCode) throws Exception{
         PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
         policyValidatorContext.addRole(Role.ADMIN);
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
@@ -60,7 +63,7 @@ public class FileService {
         }
         Feed feed = null;
         try {
-            Context context = feedWorker.getContext(fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedContextId).getContextId());
+            Context context = feedWorker.getContext(contextCode);
             feed = feedWorker.save(context, fileName, user.getId().longValue());
             FileSystem fileSystem = fileSystemFactory.getFileSystem();
             fileSystem.save(context, feed, file);

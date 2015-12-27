@@ -18,7 +18,7 @@ public interface FeedDao {
 
     Context save(Context context);
 
-    Context getContext(long contextId);
+    Context getContext(String contextId);
 
     int markFeedDeleted(long feedId);
 }

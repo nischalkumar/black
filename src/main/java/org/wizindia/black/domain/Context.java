@@ -11,8 +11,7 @@ public class Context {
 
     @Id
     @Column(name = "context_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long contextId;
+    private String contextId;
 
     @Column(name = "folderPath")
     private String folderPath;
@@ -32,8 +31,8 @@ public class Context {
     protected Context() {
     }
 
-    public Context(String folderPath, long maxFileSize, long minFileSize, String allowedExtensions, boolean isAuthRequired) {
-        this.contextId = 0;
+    public Context(String contextId, String folderPath, long maxFileSize, long minFileSize, String allowedExtensions, boolean isAuthRequired) {
+        this.contextId = contextId;
         this.folderPath = folderPath;
         this.maxFileSize = maxFileSize;
         this.minFileSize = minFileSize;
@@ -41,7 +40,7 @@ public class Context {
         this.isAuthRequired = isAuthRequired;
     }
 
-    public long getContextId() {
+    public String getContextId() {
         return contextId;
     }
 

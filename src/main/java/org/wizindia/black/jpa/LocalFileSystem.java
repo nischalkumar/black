@@ -26,7 +26,7 @@ public class LocalFileSystem implements FileSystem {
     @Override
     public String save(Context context, Feed feed, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException {
         String path = getFileSavePath(context, feed);
-        Path pathToFile = Paths.get(context.getFolderPath() + feed.getFileName());
+        Path pathToFile = Paths.get(path);
         Files.createDirectories(pathToFile.getParent());
         File convFile = Files.createFile(pathToFile).toFile();
         FileChannel channel = new RandomAccessFile(convFile, PERMISSION_READ_WRITE).getChannel();
@@ -43,7 +43,7 @@ public class LocalFileSystem implements FileSystem {
     public List<File> get(Context context, Feed feed, boolean isOnlyFileNameRequired) throws IOException {
         List<File> fileArray = new ArrayList<>();
         //Path filePath = Paths.get(path);
-        String path = context.getFolderPath() + feed.getFileName();
+        String path = getFileSavePath(context, feed);
         File file = new File(path);
         if (file.isFile()) {
             fileArray.add(file);

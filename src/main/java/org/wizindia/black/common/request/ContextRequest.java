@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContextRequest {
-    @JsonProperty("context_id")
-    private String  contextId;
+    @JsonProperty("context_code")
+    private String contextCode;
 
     @JsonProperty("folder_path")
     private String folderPath;
@@ -29,8 +29,8 @@ public class ContextRequest {
     public ContextRequest() {
     }
 
-    public ContextRequest(String contextId, String folderPath, long maxFileSize, long minFileSize, String allowedExtensions, boolean isAuthRequired) {
-        this.contextId = contextId;
+    public ContextRequest(String contextCode, String folderPath, long maxFileSize, long minFileSize, String allowedExtensions, boolean isAuthRequired) {
+        this.contextCode = contextCode;
         this.folderPath = folderPath;
         this.maxFileSize = maxFileSize;
         this.minFileSize = minFileSize;
@@ -46,8 +46,8 @@ public class ContextRequest {
         this.isAuthRequired = isAuthRequired;
     }
 
-    public String getContextId() {
-        return contextId;
+    public String getContextCode() {
+        return contextCode;
     }
 
     public String getFolderPath() {

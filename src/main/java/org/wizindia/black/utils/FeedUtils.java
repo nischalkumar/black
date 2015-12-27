@@ -10,15 +10,17 @@ import org.wizindia.black.domain.Context;
  * Created by nischal.k on 26/12/15.
  */
 public class FeedUtils {
+    @Autowired
+    EncryptionUtils encryptionUtils;
 
     @Autowired
-    @Qualifier("encrypter")
-    private Base64EncodedCiphererWithStaticKey encrypter;
-    @Autowired
-    @Qualifier("decrypter")
-    private Base64EncodedCiphererWithStaticKey decrypter;
+    FileSystemUtils fileSystemUtils;
 
     public ContextRequest getContextRequest(Context context) {
-        return new ContextRequest(encrypter.encrypt(Long.toString(context.getContextId())), context.getFolderPath(), context.getMaxFileSize(), context.getMinFileSize(), context.getAllowedExtensions(), context.isAuthRequired());
+        return new ContextRequest(context.getContextId(), context.getFolderPath(), context.getMaxFileSize(), context.getMinFileSize(), context.getAllowedExtensions(), context.isAuthRequired());
+    }
+
+    public long getContextId(String encryptedContextId) {
+        return Long.parseLong(encryptionUtils.decrypt(encryptedContextId));
     }
 }
