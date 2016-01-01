@@ -19,10 +19,10 @@ spring.datasource:
 
 server:
   port: 8444
-  ssl.key-store: keystore.p12
-  ssl.key-store-password: happyinbit
-  ssl.keyStoreType: PKCS12
+  ssl.key-store: tomcat.keystore
+  ssl.key-store-password: lfpa#ad23!@fs
   ssl.keyAlias: tomcat
+  ssl.protocol: TLS
 
 #todo: make sure to always enable security in production
 security:
