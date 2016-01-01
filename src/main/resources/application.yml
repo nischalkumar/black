@@ -47,6 +47,6 @@ info:
     description: ${project.description}
     version: ${project.version}
 
-logging.feed: /var/log/wizindia/black/backend.log
+logging.file: /var/log/wizindia/black/backend.log
 logging.level.org.springframework.web: DEBUG
 logging.level.org.hibernate: ERROR
