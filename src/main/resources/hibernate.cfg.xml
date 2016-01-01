@@ -3,8 +3,8 @@
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
-<hibernate-configuration>
 
+<hibernate-configuration>
 
     <session-factory>
 
@@ -14,40 +14,21 @@
         <property name="connection.username">black</property>
         <property name="connection.password">mypassword</property>
 
-        <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
-
         <!-- SQL dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 
-        <!-- Enable Hibernate's automatic session context management -->
-        <property name="current_session_context_class">thread</property>
-
-        <!-- Disable the second-level cache  -->
-        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
-
-        <!-- Echo all executed SQL to stdout -->
-        <property name="show_sql">false</property>
-
-        <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">update</property>
-
-        <!-- pretty prints sql to stdout if show_sql = true -->
-        <property name="format_sql">true</property>
-
-        <!-- puts comment for easy debug -->
-        <property name="use_sql_comments">true</property>
-
-        <!-- Minimum/Minimum number of JDBC connections in the pool. -->
-        <property name="hibernate.c3p0.min_size">5</property>
-        <property name="hibernate.c3p0.max_size">20</property>
-
-        <!-- When an idle connection is removed from the pool. in seconds -->
-        <property name="hibernate.c3p0.timeout">300</property>
-        <!-- no of statements to cache. default no cache -->
-        <property name="hibernate.c3p0.max_statements">50</property>
-        <!-- idle time in seconds before a connection is automatically validated -->
-        <property name="hibernate.c3p0.idle_test_period">3000</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.c3p0.initialPoolSize">10</property>
+        <property name="hibernate.c3p0.minPoolSize">1</property>
+        <property name="hibernate.c3p0.maxPoolSize">25</property>
+        <property name="hibernate.c3p0.acquireRetryAttempts">10</property>
+        <property name="hibernate.c3p0.acquireIncrement">5</property>
+        <property name="hibernate.c3p0.idleConnectionTestPeriod">3600</property>
+        <property name="hibernate.c3p0.maxIdleTime">10800</property>
+        <property name="hibernate.c3p0.maxConnectionAge">14400</property>
+        <property name="hibernate.c3p0.preferredTestQuery">SELECT 1; </property>
+        <property name="hibernate.c3p0.testConnectionOnCheckin">false</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
 
         <!-- Names the annotated entity class -->
         <mapping class="org.wizindia.black.domain.User"/>
