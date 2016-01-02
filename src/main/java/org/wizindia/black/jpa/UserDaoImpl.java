@@ -41,6 +41,7 @@ public class UserDaoImpl implements UserDao {
                 user = userList.get(0);
             transaction.commit();
         } catch (RuntimeException e) {
+            logger.error("Couldn’t roll back transaction", e);
             try{
                 transaction.rollback();
             }catch(RuntimeException rbe){
