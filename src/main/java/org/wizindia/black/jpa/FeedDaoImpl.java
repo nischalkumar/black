@@ -3,6 +3,7 @@ package org.wizindia.black.jpa;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import java.util.Set;
  */
 public class FeedDaoImpl implements FeedDao {
     @Autowired
-    HibernateUtil hibernateUtil;
+    SessionFactory sessionFactory;
 
     final static Logger logger = LoggerFactory.getLogger(FeedDaoImpl.class);
 
@@ -32,7 +33,7 @@ public class FeedDaoImpl implements FeedDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             session.save(feed);
@@ -59,7 +60,7 @@ public class FeedDaoImpl implements FeedDao {
         Transaction transaction = null;
         List<Feed> feedList = new ArrayList<>();
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from Feed where context= :context and fileName= :fileName");
@@ -89,7 +90,7 @@ public class FeedDaoImpl implements FeedDao {
         Transaction transaction = null;
         Feed feed = null;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from Feed where feedId= :feedId");
@@ -119,7 +120,7 @@ public class FeedDaoImpl implements FeedDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             session.save(context);
@@ -146,7 +147,7 @@ public class FeedDaoImpl implements FeedDao {
         Transaction transaction = null;
         Context context = null;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from Context where contextId= :contextId");
@@ -177,7 +178,7 @@ public class FeedDaoImpl implements FeedDao {
         Transaction transaction = null;
         int rowsUpdated = 0;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("update Feed set deleted= :deleted where feedId= :feedId");

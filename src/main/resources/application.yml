@@ -11,12 +11,6 @@ spring:
 spring.jmx:
    enabled: true
 
-spring.datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/black
-    username: black
-    password: mypassword
-
 server:
   port: 8444
   ssl.key-store: tomcat.keystore
@@ -50,3 +44,29 @@ info:
 logging.file: /var/log/wizindia/black/backend.log
 logging.level.org.springframework.web: DEBUG
 logging.level.org.hibernate: ERROR
+
+
+#jdbc related configs
+jdbc:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/black
+  username: black
+  password: mypassword
+
+c3p0:
+  acquireIncrement: 5
+  maxIdleTime: 10800
+  initialPoolSize: 10
+  minPoolSize: 1
+  maxPoolSize: 25
+  acquireRetryAttemps: 10
+  idleConnectionTestPeriod: 3600
+  testConnectionOnCheckin: true
+
+hibernate:
+  show_sql: true
+  dialect: org.hibernate.dialect.MySQLInnoDBDialect
+  format_sql: false
+  use_sql_comments: false
+
+

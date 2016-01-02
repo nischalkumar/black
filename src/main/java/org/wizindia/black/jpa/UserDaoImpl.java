@@ -3,6 +3,7 @@ package org.wizindia.black.jpa;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ import java.util.Set;
  */
 public class UserDaoImpl implements UserDao {
     @Autowired
-    HibernateUtil hibernateUtil;
+    SessionFactory sessionFactory;
 
     final static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
@@ -31,7 +32,7 @@ public class UserDaoImpl implements UserDao {
         Transaction transaction = null;
         User user = null;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from User where login= :login");
@@ -62,7 +63,7 @@ public class UserDaoImpl implements UserDao {
         Transaction transaction = null;
         User user = null;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from User where login= :login and password= :password");
@@ -95,7 +96,7 @@ public class UserDaoImpl implements UserDao {
         Transaction transaction = null;
         User user;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             Query query =session.createQuery("from User where id= :userId");
@@ -123,7 +124,7 @@ public class UserDaoImpl implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = sessionFactory.getCurrentSession();
             transaction = session.beginTransaction();
             transaction.setTimeout(Configs.TIMEOUT);
             session.save(user);
