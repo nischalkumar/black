@@ -88,13 +88,21 @@
         <property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
         <property name="minPoolSize" value="${c3p0.minPoolSize}" />
         <property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
-        <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttemps}}" />
+        <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttemps}" />
         <property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
         <property name="testConnectionOnCheckin" value="${c3p0.testConnectionOnCheckin}" />
     </bean>
-    <bean id="sessionFactory" class="org.hibernate.internal.SessionFactoryImpl">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource">
             <ref bean="dataSource"/>
+        </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>org.wizindia.black.domain.User</value>
+                <value>org.wizindia.black.domain.Roles</value>
+                <value>org.wizindia.black.domain.Feed</value>
+                <value>org.wizindia.black.domain.Context</value>
+            </list>
         </property>
         <property name="hibernateProperties">
             <props>

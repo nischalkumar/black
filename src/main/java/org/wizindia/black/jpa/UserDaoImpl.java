@@ -49,11 +49,6 @@ public class UserDaoImpl implements UserDao {
             }
             throw e;
         }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
-        }
         return user;
     }
 
@@ -81,11 +76,6 @@ public class UserDaoImpl implements UserDao {
             }
             throw e;
         }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
-        }
         return user;
     }
 
@@ -110,11 +100,6 @@ public class UserDaoImpl implements UserDao {
                 logger.error("Couldn’t roll back transaction", rbe);
             }
             throw e;
-        }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
         }
         return user;
     }
@@ -142,11 +127,6 @@ public class UserDaoImpl implements UserDao {
                 logger.error("Couldn’t roll back transaction", rbe);
             }
             throw e;
-        }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
         }
         return user;
     }
