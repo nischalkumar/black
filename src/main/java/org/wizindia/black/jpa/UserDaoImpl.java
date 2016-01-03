@@ -3,6 +3,7 @@ package org.wizindia.black.jpa;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,133 +22,58 @@ import java.util.Set;
  */
 public class UserDaoImpl implements UserDao {
     @Autowired
-    HibernateUtil hibernateUtil;
+    SessionFactory sessionFactory;
 
     final static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     @Override
     public User findByLogin(String login) {
-        Session session = null;
-        Transaction transaction = null;
         User user = null;
-        try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
-            transaction = session.beginTransaction();
-            transaction.setTimeout(Configs.TIMEOUT);
-            Query query =session.createQuery("from User where login= :login");
-            query.setParameter("login", login);
-            List<User> userList = query.list();
-            if(CollectionUtils.isNotEmpty(userList))
-                user = userList.get(0);
-            transaction.commit();
-        } catch (RuntimeException e) {
-            logger.error("Couldn’t roll back transaction", e);
-            try{
-                transaction.rollback();
-            }catch(RuntimeException rbe){
-                logger.error("Couldn’t roll back transaction", rbe);
-            }
-            throw e;
-        }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query query =session.createQuery("from User where login= :login");
+        query.setParameter("login", login);
+        List<User> userList = query.list();
+        userList.get(0).getRoles();
+        if(CollectionUtils.isNotEmpty(userList))
+            user = userList.get(0);
         return user;
     }
 
     @Override
     public User findByLoginAndPassword(String login, String password) {
-        Session session = null;
-        Transaction transaction = null;
         User user = null;
-        try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
-            transaction = session.beginTransaction();
-            transaction.setTimeout(Configs.TIMEOUT);
-            Query query =session.createQuery("from User where login= :login and password= :password");
-            query.setParameter("login", login);
-            query.setParameter("password", password);
-            List<User> userList = query.list();
-            if(CollectionUtils.isNotEmpty(userList))
-                user = userList.get(0);
-            transaction.commit();
-        } catch (RuntimeException e) {
-            try{
-                transaction.rollback();
-            }catch(RuntimeException rbe){
-                logger.error("Couldn’t roll back transaction", rbe);
-            }
-            throw e;
-        }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query query =session.createQuery("from User where login= :login and password= :password");
+        query.setParameter("login", login);
+        query.setParameter("password", password);
+        List<User> userList = query.list();
+        if(CollectionUtils.isNotEmpty(userList))
+            user = userList.get(0);
         return user;
     }
 
     @Override
     public User findById(int userId) {
-
-        Session session = null;
-        Transaction transaction = null;
-        User user;
-        try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
-            transaction = session.beginTransaction();
-            transaction.setTimeout(Configs.TIMEOUT);
-            Query query =session.createQuery("from User where id= :userId");
-            query.setParameter("userId", userId);
-            user = (User) query.list().get(0);
-            transaction.commit();
-        } catch (RuntimeException e) {
-            try{
-                transaction.rollback();
-            }catch(RuntimeException rbe){
-                logger.error("Couldn’t roll back transaction", rbe);
-            }
-            throw e;
-        }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
-        }
+        User user = null;
+        Session session = sessionFactory.getCurrentSession();
+        Query query =session.createQuery("from User where id= :userId");
+        query.setParameter("userId", userId);
+        List<User> userList = query.list();
+        if(CollectionUtils.isNotEmpty(userList))
+            user = userList.get(0);
         return user;
     }
 
     @Override
     public User save(User user, Set<Role> roleSet) {
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
-            transaction = session.beginTransaction();
-            transaction.setTimeout(Configs.TIMEOUT);
-            session.save(user);
-            Set<Roles> rolesSet=new HashSet<Roles>();
-            for(Role role: roleSet) {
-                session.save(new Roles(0, role, user));
-                rolesSet.add(new Roles(0, role, user));
-            }
-            transaction.commit();
-            user.setRolesSet(rolesSet);
-        } catch (RuntimeException e) {
-            try{
-                transaction.rollback();
-            }catch(RuntimeException rbe){
-                logger.error("Couldn’t roll back transaction", rbe);
-            }
-            throw e;
+        Session session = sessionFactory.getCurrentSession();
+        session.save(user);
+        Set<Roles> rolesSet=new HashSet<Roles>();
+        for(Role role: roleSet) {
+            session.save(new Roles(0, role, user));
+            rolesSet.add(new Roles(0, role, user));
         }
-        finally {
-            if (session.isOpen()) {
-                session.close();
-            }
-        }
+        user.setRolesSet(rolesSet);
         return user;
     }
 }
