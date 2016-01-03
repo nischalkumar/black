@@ -3,25 +3,34 @@
 ### Java properties feed.
 
 spring:
-  profiles.active: default
+  jmx:
+    enabled: true
+  profiles:
+    active: development
 ---
 spring:
-  profiles: default   # this is for local development. For QA, Production override these values
-
-spring.jmx:
-   enabled: true
+    profiles: development
+server:
+    address: 127.0.0.1
+---
+spring:
+    profiles: production
+server:
+    address: padhaitech.com
+---
 
 server:
   port: 8444
-  ssl.key-store: tomcat.keystore
-  ssl.key-store-password: lfpa#ad23!@fs
-  ssl.keyAlias: tomcat
-  ssl.protocol: TLS
+  ssl:
+    key-store: tomcat.keystore
+    key-store-password: lfpa#ad23!@fs
+    keyAlias: tomcat
+    protocol: TLS
 
 #todo: make sure to always enable security in production
 security:
   basic:
-    enabled: false
+    enabled: true
 
 #management endpoints on a separate port
 management:
@@ -34,6 +43,7 @@ project:
   name: black
   version: 0.1
   description: feed upload & download
+
 info:
   build:
     artifact: ${project.artifactId}
@@ -41,9 +51,10 @@ info:
     description: ${project.description}
     version: ${project.version}
 
-logging.file: /var/log/wizindia/black/backend.log
-logging.level.org.springframework.web: DEBUG
-logging.level.org.hibernate: ERROR
+logging:
+  file: /var/log/wizindia/black/backend.log
+  level.org.springframework.web: DEBUG
+  level.org.hibernate: ERROR
 
 
 #jdbc related configs
@@ -64,7 +75,7 @@ c3p0:
   testConnectionOnCheckin: true
 
 hibernate:
-  show_sql: true
+  show_sql: false
   dialect: org.hibernate.dialect.MySQLInnoDBDialect
   format_sql: false
   use_sql_comments: false
