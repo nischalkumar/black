@@ -18,7 +18,6 @@ import org.springframework.core.annotation.Order;
 
 @SpringBootApplication
 @ImportResource("classpath:META-INF/applicationContext.xml")
-@Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class Application extends SpringBootServletInitializer {
 
