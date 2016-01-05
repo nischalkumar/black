@@ -43,8 +43,7 @@ public class UserController extends AuthController{
             method = RequestMethod.GET,
             produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
-    public UserResponse getUser(@AuthenticationPrincipal @PathVariable String loginName,
-                             HttpServletRequest request, HttpServletResponse response) {
+    public UserResponse getUser(@PathVariable String loginName) {
         return userService.getUser(loginName, getUser(SecurityContextHolder.getContext().getAuthentication()));
     }
 
@@ -52,7 +51,7 @@ public class UserController extends AuthController{
             method = RequestMethod.GET,
             produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
-    public UserResponse getUser(HttpServletRequest request, HttpServletResponse response) {
+    public UserResponse getUser() {
         return userService.getUser(getUser(SecurityContextHolder.getContext().getAuthentication()));
     }
 
@@ -80,8 +79,7 @@ public class UserController extends AuthController{
             consumes = {"application/json"},
             produces = {"application/json"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserResponse insertUser(@AuthenticationPrincipal@RequestBody User user,
-                               HttpServletRequest request, HttpServletResponse response) {
+    public UserResponse insertUser(@RequestBody User user) {
         return userService.insertUser(user, getUser(SecurityContextHolder.getContext().getAuthentication()));
     }
 }

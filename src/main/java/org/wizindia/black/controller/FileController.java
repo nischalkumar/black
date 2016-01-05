@@ -34,14 +34,14 @@ public class FileController extends AuthController {
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = {"application/json"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_name") String fileName, @RequestParam("context") String contextCode, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_name") String fileName, @RequestParam("context") String contextCode) throws Exception{
         logger.info("Feed upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
         return fileService.saveFile(getUser(SecurityContextHolder.getContext().getAuthentication()), fileName, file, contextCode);
     }
 
     @RequestMapping(value = "/{finalContext}", method = RequestMethod.GET)
     @ResponseBody
-    public FileSystemResource getFile(@PathVariable("finalContext") String finalContext, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public FileSystemResource getFile(@PathVariable("finalContext") String finalContext) throws Exception{
         logger.info("Feed upload request recieved with payload: " + finalContext);
         return new FileSystemResource(fileService.getFile(finalContext));
     }
@@ -55,7 +55,7 @@ public class FileController extends AuthController {
 
     @RequestMapping(value = "/context", method = RequestMethod.POST)
     @ResponseBody
-    public ContextRequest saveContext(@AuthenticationPrincipal @RequestBody ContextRequest contextRequest, HttpServletRequest request, HttpServletResponse response) {
+    public ContextRequest saveContext(@RequestBody ContextRequest contextRequest) {
         logger.info("request recieved to save "+ contextRequest);
         return fileService.saveContext(getUser(SecurityContextHolder.getContext().getAuthentication()), contextRequest);
     }
