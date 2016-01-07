@@ -126,6 +126,11 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.spring-crypto-utils</groupId>
+            <artifactId>spring-crypto-utils</artifactId>
+            <version>1.4.0</version>
+        </dependency>
         <!--
         <dependency>
             <groupId>org.springframework.data</groupId>

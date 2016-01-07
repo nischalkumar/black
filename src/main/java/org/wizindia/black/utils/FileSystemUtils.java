@@ -1,17 +1,13 @@
 package org.wizindia.black.utils;
 
-import com.springcryptoutils.core.cipher.symmetric.Base64EncodedCiphererWithStaticKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.wizindia.black.common.Configs;
-import org.wizindia.black.common.Enums.FileSystemEnum;
 import org.wizindia.black.common.FinalFilePathContext;
-import org.wizindia.black.jpa.FileSystem;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.util.regex.Pattern;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Created by nischal.k on 07/12/15.
@@ -25,7 +21,7 @@ public final class FileSystemUtils {
     public String getDownloadLink(final long feedId, final String contextId) {
         try {
             String encodedDownloadContext = encryptionUtils.encrypt(getDownloadContext(feedId, contextId));
-            URL url = new URL(Configs.baseUrl + "/v1/file/" + encodedDownloadContext);
+            URL url = new URL(Configs.baseUrl + "/v1/anon/file/" + encodedDownloadContext);
             String nullFragment = null;
             URI uri = new URI(url.getProtocol(), url.getHost()+":"+url.getPort(), url.getPath(), url.getQuery(), nullFragment);
             return uri.toString();

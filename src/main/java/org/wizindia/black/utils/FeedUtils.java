@@ -1,8 +1,6 @@
 package org.wizindia.black.utils;
 
-import com.springcryptoutils.core.cipher.symmetric.Base64EncodedCiphererWithStaticKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.wizindia.black.common.request.ContextRequest;
 import org.wizindia.black.domain.Context;
 
