@@ -7,5 +7,7 @@ public enum ValidatorEnum {
     PolicyValidator,
     FileNameValidator,
     FileExtensionValidator,
-    FileSizeValidator
+    FileSizeValidator,
+    AuthContextDownLoadRequired,
+    UnAuthContextDownLoadRequired;
 }

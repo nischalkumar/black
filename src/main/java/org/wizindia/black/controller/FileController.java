@@ -44,7 +44,7 @@ public class FileController extends AuthController {
     @ResponseBody
     public FileSystemResource getFile(@PathVariable("finalContext") String finalContext) throws Exception{
         logger.info("Feed upload request recieved with payload: " + finalContext);
-        return new FileSystemResource(fileService.getFile(finalContext));
+        return new FileSystemResource(fileService.getFile(finalContext, getUser(SecurityContextHolder.getContext().getAuthentication())));
     }
 
 //    @RequestMapping(value = "/auth/{fileName}/{finalContext}", method = RequestMethod.GET, produces = {"application/json"})

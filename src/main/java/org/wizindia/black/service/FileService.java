@@ -67,7 +67,7 @@ public class FileService {
             feed = feedWorker.save(context, fileName, user.getId().longValue());
             FileSystem fileSystem = fileSystemFactory.getFileSystem();
             fileSystem.save(context, feed, file);
-            return new FileUploadResponse(fileSystemUtils.getDownloadLink(feed.getFeedId(), context.getContextId()));
+            return new FileUploadResponse(fileSystemUtils.getDownloadLink(feed.getFeedId(), context.getContextId(), context.isAuthRequired()));
         } catch (Exception ex) {
             if(feed!=null) {
                 feedWorker.markDeleted(feed.getFeedId());
@@ -76,11 +76,41 @@ public class FileService {
         }
     }
 
-    public File getFile(final String encryptedFinalContext) throws IOException {
+    public File getFile(final String encryptedFinalContext, User user) throws IOException {
+
         FileSystem fileSystem = fileSystemFactory.getFileSystem();
-        //FinalFilePathContext finalFilePathContext = feedWorker.getFinalPath(finalContext);
         FinalFilePathContext finalFilePathContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
         Context context = feedWorker.getContext(finalFilePathContext.getContextId());
+
+        PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
+        policyValidatorContext.addRole(Role.ADMIN);
+        Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
+                .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
+                .addValidator(ValidatorEnum.AuthContextDownLoadRequired, context)
+                .build();
+        //TODO: check the return value of validtor. take proper steps to throw checked exceptions
+        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
+
+        Feed feed = feedWorker.getFeed(finalFilePathContext.getFeedId());
+        File file = (File)fileSystem.get(context, feed, false).get(0);
+        enrichFileDetails(finalFilePathContext, file);
+        return file;
+    }
+
+
+
+    public File getFile(final String encryptedFinalContext) throws IOException {
+
+        FileSystem fileSystem = fileSystemFactory.getFileSystem();
+        FinalFilePathContext finalFilePathContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
+        Context context = feedWorker.getContext(finalFilePathContext.getContextId());
+
+        Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
+                .addValidator(ValidatorEnum.UnAuthContextDownLoadRequired, context)
+                .build();
+        //TODO: check the return value of validtor. take proper steps to throw checked exceptions
+        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
+
         Feed feed = feedWorker.getFeed(finalFilePathContext.getFeedId());
         File file = (File)fileSystem.get(context, feed, false).get(0);
         enrichFileDetails(finalFilePathContext, file);
@@ -97,7 +127,7 @@ public class FileService {
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
                 .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
                 .build();
-        //TODO: check the return value of validtor. take proper steps to throw checked exceptions
+        //TODO: check the return value of validator. take proper steps to throw checked exceptions
         List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
         if(CollectionUtils.isNotEmpty(validationErrorList)) {
             throw new ValidationException(validationErrorList);

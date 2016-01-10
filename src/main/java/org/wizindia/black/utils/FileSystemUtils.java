@@ -16,12 +16,15 @@ public final class FileSystemUtils {
     @Autowired
     EncryptionUtils encryptionUtils;
 
-    private final String feedIdSeparator = "+++";
-    private final String reverseFeedIdSeparator = "\\+++";
-    public String getDownloadLink(final long feedId, final String contextId) {
+    private static final String feedIdSeparator = "+++";
+    private static final String reverseFeedIdSeparator = "\\+++";
+    private static final String Un_Auth_Download_Endpoint = "/v1/anon/file/";
+    private static final String Auth_Download_Endpoint = "/v1/file/";
+
+    public String getDownloadLink(final long feedId, final String contextId, boolean isAuthRequired) {
         try {
             String encodedDownloadContext = encryptionUtils.encrypt(getDownloadContext(feedId, contextId));
-            URL url = new URL(Configs.baseUrl + "/v1/anon/file/" + encodedDownloadContext);
+            URL url = getDownloadUrlEndPoint(encodedDownloadContext, isAuthRequired);
             String nullFragment = null;
             URI uri = new URI(url.getProtocol(), url.getHost()+":"+url.getPort(), url.getPath(), url.getQuery(), nullFragment);
             return uri.toString();
@@ -52,5 +55,19 @@ public final class FileSystemUtils {
 
     private String getDownloadContext(long feedId, String contextId) {
         return Long.toString(feedId) + feedIdSeparator + contextId;
+    }
+
+    private URL getUnAuthEndpointUrl(String encodedDownloadContext) throws MalformedURLException {
+        return new URL(Configs.baseUrl + Un_Auth_Download_Endpoint + encodedDownloadContext);
+    }
+
+    private URL getAuthEndpointUrl(String encodedDownloadContext) throws MalformedURLException {
+        return new URL(Configs.baseUrl + Auth_Download_Endpoint + encodedDownloadContext);
+    }
+
+    private URL getDownloadUrlEndPoint(String encodedDownloadContext, boolean isAuthRequired) throws MalformedURLException{
+        if(isAuthRequired)
+            return getAuthEndpointUrl(encodedDownloadContext);
+        return getUnAuthEndpointUrl(encodedDownloadContext);
     }
 }
