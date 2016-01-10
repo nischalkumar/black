@@ -86,7 +86,7 @@ public class FileService {
         policyValidatorContext.addRole(Role.ADMIN);
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
                 .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
-                .addValidator(ValidatorEnum.AuthContextDownLoadRequired, context)
+                .addValidator(ValidatorEnum.AuthContextDownLoadRequiredValidator, context)
                 .build();
         //TODO: check the return value of validtor. take proper steps to throw checked exceptions
         List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
@@ -106,7 +106,7 @@ public class FileService {
         Context context = feedWorker.getContext(finalFilePathContext.getContextId());
 
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
-                .addValidator(ValidatorEnum.UnAuthContextDownLoadRequired, context)
+                .addValidator(ValidatorEnum.UnAuthContextDownLoadRequiredValidator, context)
                 .build();
         //TODO: check the return value of validtor. take proper steps to throw checked exceptions
         List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);

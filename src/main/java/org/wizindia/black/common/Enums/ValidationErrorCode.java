@@ -10,7 +10,8 @@ public enum ValidationErrorCode implements ValidationError{
     FileSizeMoreThanExpected(101, "Feed size more than allowed size"),
     FileSizeLessThanExpected(102, "Feed size less than allowed size"),
     FileExtensionNotSupported(103, "Feed extension is not supported"),
-    InvalidRole(200, "Unauthorized access");
+    InvalidRole(200, "Unauthorized access"),
+    InvalidAccess(201, "Unauthorized access");
 
     private int code;
     private String message;
