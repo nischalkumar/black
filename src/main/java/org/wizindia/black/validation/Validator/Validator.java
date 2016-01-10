@@ -1,4 +1,6 @@
-package org.wizindia.black.validation;
+package org.wizindia.black.validation.validator;
+
+import org.wizindia.black.validation.ValidationError;
 
 import java.util.List;
 

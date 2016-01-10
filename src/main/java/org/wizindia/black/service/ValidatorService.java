@@ -4,7 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wizindia.black.validation.ValidationError;
-import org.wizindia.black.validation.Validator;
+import org.wizindia.black.validation.validator.Validator;
 import org.wizindia.black.validation.ValidatorEnum;
 import org.wizindia.black.validation.ValidatorFactory;
 

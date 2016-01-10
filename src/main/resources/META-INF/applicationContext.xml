@@ -35,10 +35,10 @@
     <aop:aspectj-autoproxy />
 
     <!--validator-->
-    <bean id="policyValidator" class="org.wizindia.black.validation.PolicyValidator"></bean>
-    <bean id="fileNameValidator" class="org.wizindia.black.validation.FileNameValidator"></bean>
-    <bean id="fileSizeValidator" class="org.wizindia.black.validation.FileSizeValidator"></bean>
-    <bean id="fileExtensionValidator" class="org.wizindia.black.validation.FileExtensionValidator"></bean>
+    <bean id="policyValidator" class="org.wizindia.black.validation.validator.PolicyValidator"></bean>
+    <bean id="fileNameValidator" class="org.wizindia.black.validation.validator.FileNameValidator"></bean>
+    <bean id="fileSizeValidator" class="org.wizindia.black.validation.validator.FileSizeValidator"></bean>
+    <bean id="fileExtensionValidator" class="org.wizindia.black.validation.validator.FileExtensionValidator"></bean>
     <!-- workers -->
     <bean id="userWorker" class="org.wizindia.black.worker.UserWorker"></bean>
     <bean id="feedWorker" class="org.wizindia.black.worker.FeedWorker"></bean>

@@ -8,7 +8,7 @@ import org.wizindia.black.utils.UserUtils;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.common.response.UserResponse;
 import org.wizindia.black.domain.User;
-import org.wizindia.black.validation.PolicyValidator;
+import org.wizindia.black.validation.validator.PolicyValidator;
 import org.wizindia.black.validation.PolicyValidatorContext;
 import org.wizindia.black.validation.ValidatorContextMapBuilder;
 import org.wizindia.black.validation.ValidatorEnum;

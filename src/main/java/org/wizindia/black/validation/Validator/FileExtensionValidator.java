@@ -1,9 +1,10 @@
-package org.wizindia.black.validation;
+package org.wizindia.black.validation.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.ValidationErrorCode;
 import org.wizindia.black.utils.FileSystemUtils;
+import org.wizindia.black.validation.ValidationError;
 
 import java.util.ArrayList;
 import java.util.Arrays;

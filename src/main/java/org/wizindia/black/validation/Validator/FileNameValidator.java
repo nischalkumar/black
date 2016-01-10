@@ -1,7 +1,8 @@
-package org.wizindia.black.validation;
+package org.wizindia.black.validation.validator;
 
 import org.wizindia.black.common.Configs;
 import org.wizindia.black.common.Enums.ValidationErrorCode;
+import org.wizindia.black.validation.ValidationError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by nischal.k on 07/12/15.
  */
-public class FileNameValidator implements Validator{
+public class FileNameValidator implements Validator {
 
     int  fileNameSize = Configs.FileNameMaxLength;
 

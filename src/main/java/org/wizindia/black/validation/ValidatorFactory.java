@@ -1,6 +1,7 @@
 package org.wizindia.black.validation;
 
 import org.wizindia.black.exception.ValidatorNotFoundException;
+import org.wizindia.black.validation.validator.Validator;
 
 import java.util.Map;
 

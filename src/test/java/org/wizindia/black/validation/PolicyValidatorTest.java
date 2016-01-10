@@ -1,6 +1,5 @@
 package org.wizindia.black.validation;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.domain.Roles;
 import org.wizindia.black.domain.User;
+import org.wizindia.black.validation.validator.PolicyValidator;
 
 import java.util.Arrays;
 import java.util.HashSet;

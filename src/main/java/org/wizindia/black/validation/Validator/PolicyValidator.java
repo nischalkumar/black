@@ -1,11 +1,13 @@
-package org.wizindia.black.validation;
+package org.wizindia.black.validation.validator;
 
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.common.Enums.ValidationErrorCode;
+import org.wizindia.black.validation.PolicyValidatorContext;
+import org.wizindia.black.validation.ValidationError;
+import org.wizindia.black.validation.validator.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by hari_om on 27/9/15.
