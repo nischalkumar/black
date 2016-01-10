@@ -77,6 +77,8 @@
     <bean id="fileNameValidator" class="org.wizindia.black.validation.validator.FileNameValidator"></bean>
     <bean id="fileSizeValidator" class="org.wizindia.black.validation.validator.FileSizeValidator"></bean>
     <bean id="fileExtensionValidator" class="org.wizindia.black.validation.validator.FileExtensionValidator"></bean>
+    <bean id="authContextDownLoadRequiredValidator" class="org.wizindia.black.validation.validator.AuthContextDownLoadRequiredValidator"></bean>
+    <bean id="unAuthContextDownLoadRequiredValidator" class="org.wizindia.black.validation.validator.UnAuthContextDownLoadRequiredValidator"></bean>
     <!-- workers -->
     <bean id="userWorker" class="org.wizindia.black.worker.UserWorker"></bean>
     <bean id="feedWorker" class="org.wizindia.black.worker.FeedWorker"></bean>
@@ -101,6 +103,8 @@
                 <entry key="FileNameValidator" value-ref="fileNameValidator"/>
                 <entry key="FileExtensionValidator" value-ref="fileExtensionValidator"/>
                 <entry key="FileSizeValidator" value-ref="fileSizeValidator"/>
+                <entry key="UnAuthContextDownLoadRequiredValidator" value-ref="unAuthContextDownLoadRequiredValidator"/>
+                <entry key="AuthContextDownLoadRequiredValidator" value-ref="authContextDownLoadRequiredValidator"/>
             </map>
         </constructor-arg>
     </bean>
