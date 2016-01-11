@@ -79,5 +79,6 @@ hibernate:
   dialect: org.hibernate.dialect.MySQLInnoDBDialect
   format_sql: false
   use_sql_comments: false
+  hbm2ddl.auto: update
 
 
