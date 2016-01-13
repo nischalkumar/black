@@ -28,4 +28,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/v1/user/**").authenticated()
+                .antMatchers("/v1/file/**").authenticated();
+        // @formatter:off
+        // @formatter:on
+    }
 }

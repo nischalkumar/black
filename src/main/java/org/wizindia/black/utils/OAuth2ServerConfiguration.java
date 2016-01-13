@@ -43,8 +43,7 @@ public class OAuth2ServerConfiguration {
             http.authorizeRequests()
                     .antMatchers("/v1/user/**").authenticated()
                     .antMatchers("/v1/file/**").authenticated()
-                    .and()
-                    .antMatcher("/v1/anon/**").anonymous();
+                    ;
             // @formatter:on
         }
 
