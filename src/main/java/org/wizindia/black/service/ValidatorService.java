@@ -3,6 +3,7 @@ package org.wizindia.black.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.wizindia.black.common.Exception.ValidationRuntimeException;
 import org.wizindia.black.validation.ValidationError;
 import org.wizindia.black.validation.validator.Validator;
 import org.wizindia.black.validation.ValidatorEnum;
@@ -19,7 +20,7 @@ public class ValidatorService {
     @Autowired
     ValidatorFactory validatorFactory;
 
-    public List<ValidationError> validate(Map<ValidatorEnum, Object> validatorContextMap) {
+    public void validate(Map<ValidatorEnum, Object> validatorContextMap) {
         List<ValidationError> validationErrors= new ArrayList();
         if(MapUtils.isNotEmpty(validatorContextMap)) {
             for (Map.Entry<ValidatorEnum, Object> entry : validatorContextMap.entrySet()) {
@@ -31,6 +32,7 @@ public class ValidatorService {
                 }
             }
         }
-        return validationErrors;
+        if(CollectionUtils.isNotEmpty(validationErrors))
+            throw new ValidationRuntimeException(validationErrors);
     }
 }
