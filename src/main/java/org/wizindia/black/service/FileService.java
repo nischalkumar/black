@@ -57,10 +57,8 @@ public class FileService {
                 .addValidator(ValidatorEnum.FileSizeValidator, file.getSize())
                 .build();
         //TODO: check the return value of validtor. take proper steps to throw checked exceptions
-        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
-        if(CollectionUtils.isNotEmpty(validationErrorList)) {
-            throw new ValidationException(validationErrorList);
-        }
+        validatorService.validate(validatorContextMap);
+
         Feed feed = null;
         try {
             Context context = feedWorker.getContext(contextCode);
@@ -88,8 +86,8 @@ public class FileService {
                 .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
                 .addValidator(ValidatorEnum.AuthContextDownLoadRequiredValidator, context)
                 .build();
-        //TODO: check the return value of validtor. take proper steps to throw checked exceptions
-        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
+
+        validatorService.validate(validatorContextMap);
 
         Feed feed = feedWorker.getFeed(finalFilePathContext.getFeedId());
         File file = (File)fileSystem.get(context, feed, false).get(0);
@@ -108,8 +106,8 @@ public class FileService {
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
                 .addValidator(ValidatorEnum.UnAuthContextDownLoadRequiredValidator, context)
                 .build();
-        //TODO: check the return value of validtor. take proper steps to throw checked exceptions
-        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
+
+        validatorService.validate(validatorContextMap);
 
         Feed feed = feedWorker.getFeed(finalFilePathContext.getFeedId());
         File file = (File)fileSystem.get(context, feed, false).get(0);
@@ -127,11 +125,8 @@ public class FileService {
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
                 .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
                 .build();
-        //TODO: check the return value of validator. take proper steps to throw checked exceptions
-        List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
-        if(CollectionUtils.isNotEmpty(validationErrorList)) {
-            throw new ValidationException(validationErrorList);
-        }
+
+        validatorService.validate(validatorContextMap);
         return feedWorker.save(contextRequest);
     }
 }

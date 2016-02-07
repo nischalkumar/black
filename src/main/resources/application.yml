@@ -21,11 +21,6 @@ server:
 
 server:
   port: 8444
-  ssl:
-    key-store: tomcat.keystore
-    key-store-password: lfpa#ad23!@fs
-    keyAlias: tomcat
-    protocol: TLS
 
 #todo: make sure to always enable security in production
 security:
