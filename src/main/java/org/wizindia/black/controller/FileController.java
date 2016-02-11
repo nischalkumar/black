@@ -18,6 +18,7 @@ import org.wizindia.black.service.FileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.net.URLDecoder;
 
 /**
@@ -35,8 +36,9 @@ public class FileController extends AuthController {
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = {"application/json"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_name") String fileName, @RequestParam("context") String contextCode) throws Exception{
-        logger.info("Feed upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
+    public FileUploadResponse uploadFile(@RequestParam("file") File file, @RequestParam("file_name") String fileName, @RequestParam("context") String contextCode) throws Exception{
+        //logger.info("Feed upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
+        logger.info("Feed upload request recieved with payload: " + file.getAbsolutePath() + " with size: " + file.getTotalSpace());
         return fileService.saveFile(getUser(SecurityContextHolder.getContext().getAuthentication()), fileName, file, contextCode);
     }
 

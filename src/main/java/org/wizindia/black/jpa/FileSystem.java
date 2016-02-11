@@ -16,7 +16,7 @@ public interface FileSystem {
     saves MultipartFile at the give location.
     if the path does not exist, The path is created. and the file is saved.
      */
-    String save (Context context, Feed feed, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException;
+    String save (Context context, Feed feed, File file) throws IOException,NullPointerException,UnsupportedOperationException;
 
     /*
     returns List of MultiPart Feed at the path specified.

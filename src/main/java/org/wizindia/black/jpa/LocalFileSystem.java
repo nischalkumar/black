@@ -1,19 +1,20 @@
 package org.wizindia.black.jpa;
 
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.wizindia.black.common.Configs;
 import org.wizindia.black.domain.Context;
 import org.wizindia.black.domain.Feed;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import org.apache.commons.io.IOUtils;
+
+
+
 import java.nio.file.*;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class LocalFileSystem implements FileSystem {
 
     public final static String PERMISSION_READ_WRITE = "rw";
     @Override
-    public String save(Context context, Feed feed, MultipartFile file) throws IOException,NullPointerException,UnsupportedOperationException {
+    public String save(Context context, Feed feed, File file) throws IOException,NullPointerException,UnsupportedOperationException {
         String path = getFileSavePath(context, feed);
         Path pathToFile = Paths.get(path);
         Files.createDirectories(pathToFile.getParent());
@@ -32,7 +33,10 @@ public class LocalFileSystem implements FileSystem {
         FileChannel channel = new RandomAccessFile(convFile, PERMISSION_READ_WRITE).getChannel();
         FileLock lock = channel.lock();
         FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
+        //File
+        //fos.write(IoU);
+        InputStream inputStream = FileUtils.openInputStream(file);
+        IOUtils.toByteArray(inputStream);
         lock.release();
         channel.close();
         fos.close();

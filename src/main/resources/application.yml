@@ -7,17 +7,7 @@ spring:
     enabled: true
   profiles:
     active: development
----
-spring:
-    profiles: development
-server:
-    address: 127.0.0.1
----
-spring:
-    profiles: production
-server:
-    address: padhaitech.com
----
+
 
 server:
   port: 8444

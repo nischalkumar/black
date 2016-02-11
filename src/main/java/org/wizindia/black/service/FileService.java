@@ -47,14 +47,14 @@ public class FileService {
 
     final static Logger logger = LoggerFactory.getLogger(FileService.class);
 
-    public FileUploadResponse saveFile(final User user, final String fileName, final MultipartFile file, final String contextCode) throws Exception{
+    public FileUploadResponse saveFile(final User user, final String fileName, final File file, final String contextCode) throws Exception{
         PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
         policyValidatorContext.addRole(Role.ADMIN);
         Map<ValidatorEnum, Object> validatorContextMap = new ValidatorContextMapBuilder()
                 .addValidator(ValidatorEnum.PolicyValidator, policyValidatorContext)
                 .addValidator(ValidatorEnum.FileNameValidator, fileName)
                 .addValidator(ValidatorEnum.FileExtensionValidator, file.getName())
-                .addValidator(ValidatorEnum.FileSizeValidator, file.getSize())
+                .addValidator(ValidatorEnum.FileSizeValidator, file.getTotalSpace())
                 .build();
         //TODO: check the return value of validtor. take proper steps to throw checked exceptions
         List<ValidationError> validationErrorList = validatorService.validate(validatorContextMap);
