@@ -47,6 +47,22 @@ public class FileService {
 
     final static Logger logger = LoggerFactory.getLogger(FileService.class);
 
+    public FileUploadResponse saveFile(final String fileName, final MultipartFile file, final String contextCode) throws Exception{
+        Feed feed = null;
+        try {
+            Context context = feedWorker.getContext(contextCode);
+            feed = feedWorker.save(context, fileName, (long) 99999999);
+            FileSystem fileSystem = fileSystemFactory.getFileSystem();
+            fileSystem.save(context, feed, file);
+            return new FileUploadResponse(fileSystemUtils.getDownloadLink(feed.getFeedId(), context.getContextId(), context.isAuthRequired()));
+        } catch (Exception ex) {
+            if(feed!=null) {
+                feedWorker.markDeleted(feed.getFeedId());
+            }
+            throw ex;
+        }
+    }
+
     public FileUploadResponse saveFile(final User user, final String fileName, final MultipartFile file, final String contextCode) throws Exception{
         PolicyValidatorContext policyValidatorContext = new PolicyValidatorContext(user);
         policyValidatorContext.addRole(Role.ADMIN);
