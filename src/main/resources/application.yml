@@ -16,7 +16,7 @@ server:
 spring:
     profiles: production
 server:
-    address: padhaitech.com
+    address: wizork.com
 ---
 
 server:
