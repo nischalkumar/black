@@ -77,7 +77,7 @@ public class LocalFileSystem implements FileSystem {
 
     @Override
     public String getFileSavePath(Context context, Feed feed) {
-        return Configs.primaryPath + context.getFolderPath() + feed.getFileName();
+        return Configs.primaryPath + context.getFolderPath() + "_" + feed.getFileName() + "_" + feed.getFeedId();
     }
 
     @Override

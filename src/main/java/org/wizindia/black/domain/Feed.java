@@ -1,11 +1,15 @@
 package org.wizindia.black.domain;
 
+
+import lombok.Getter;
+
 import javax.persistence.*;
 
 /**
  * Created by nischal.k on 10/12/15.
  */
 @Entity
+@Getter
 @Table(name = "feed")
 public class Feed {
 
@@ -52,29 +56,5 @@ public class Feed {
         this.lastModified = lastModified;
         this.userId = userId;
         this.deleted = deleted;
-    }
-
-    public Long getFeedId() {
-        return feedId;
-    }
-
-    public Context getContext() {
-        return context;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public Long getCreatedOn() {
-        return createdOn;
-    }
-
-    public Long getLastModified() {
-        return lastModified;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 }
