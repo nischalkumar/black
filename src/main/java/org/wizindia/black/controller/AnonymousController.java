@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +31,7 @@ public class AnonymousController {
 
     final static Logger logger = LoggerFactory.getLogger(AnonymousController.class);
 
-    @RequestMapping(value = "/file/{finalContext}", method = RequestMethod.GET)
+    @RequestMapping(value = "/file/{finalContext}", method = RequestMethod.GET,  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public FileSystemResource getFile(@PathVariable("finalContext") String finalContext) throws Exception{
         logger.info("Feed upload request recieved with payload: " + finalContext);
@@ -45,7 +46,9 @@ public class AnonymousController {
         if(StringUtils.isEmpty(fileName)) {
             fileName = file.getOriginalFilename();
         }
-        return fileService.saveFile(fileName, file, context);
+        FileUploadResponse fileUploadResponse = fileService.saveFile(fileName, file, context);
+        logger.info("returning path: " + fileUploadResponse);
+        return fileUploadResponse;
     }
 
     @Bean

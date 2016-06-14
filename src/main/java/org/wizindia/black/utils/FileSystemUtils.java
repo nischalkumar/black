@@ -19,7 +19,7 @@ public final class FileSystemUtils {
     private static final String feedIdSeparator = "+++";
     private static final String reverseFeedIdSeparator = "\\+++";
     private static final String Un_Auth_Download_Endpoint = "/v1/anon/file/";
-    private static final String Auth_Download_Endpoint = "/v1/file/";
+    private static final String Auth_Download_Endpoint = "/v1/anon/file/";
 
     public String getDownloadLink(final long feedId, final String contextId, boolean isAuthRequired) {
         try {
