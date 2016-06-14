@@ -1,6 +1,7 @@
 package org.wizindia.black.controller;
 
 import com.wordnik.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,12 @@ public class AnonymousController {
 
     @RequestMapping(value = "/file", method = RequestMethod.POST, produces = {"application/json"}, consumes = {"multipart/*"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public FileUploadResponse uploadFile(@RequestPart(value = "file") MultipartFile file) throws Exception{
+    public FileUploadResponse uploadFile(@RequestParam(value = "context", defaultValue = "") String context, @RequestParam(value = "context", defaultValue = "") String fileName, @RequestPart(value = "file") MultipartFile file) throws Exception{
         logger.info("Feed upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
-        return fileService.saveFile("hkdjahfka", file, "fhkasfd");
+        if(StringUtils.isEmpty(fileName)) {
+            fileName = file.getOriginalFilename();
+        }
+        return fileService.saveFile(fileName, file, context);
     }
 
     @Bean
