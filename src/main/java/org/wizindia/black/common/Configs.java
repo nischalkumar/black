@@ -26,6 +26,6 @@ public class Configs {
 
     //Separator must be present at the end
     public static final String FileSystem = "LOCAL_FILE_SYSTEM";
-    public static final String primaryPath = "/var/wizindia/";
+    public static final String primaryPath = "/var/wizindia";
     public static final String baseUrl = "https://padhaitech.com:8444";
 }

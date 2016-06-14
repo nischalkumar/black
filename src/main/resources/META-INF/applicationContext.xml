@@ -116,4 +116,5 @@
     <bean id="fileSystemUtils" class="org.wizindia.black.utils.FileSystemUtils"></bean>
     <bean id="feedUtils" class="org.wizindia.black.utils.FeedUtils"></bean>
     <bean id="encyptionUtils" class="org.wizindia.black.utils.EncryptionUtils"></bean>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 </beans>
