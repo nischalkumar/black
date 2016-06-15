@@ -47,7 +47,7 @@ public class AnonymousController {
 
     @RequestMapping(value = "/file", method = RequestMethod.POST, produces = {"application/json"}, consumes = {"multipart/*"})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public FileUploadResponse uploadFile(@RequestParam(value = "context", defaultValue = "") String context, @RequestParam(value = "context", defaultValue = "") String fileName, @RequestPart(value = "file") MultipartFile file) throws Exception{
+    public FileUploadResponse uploadFile(@RequestParam(value = "context", defaultValue = "") String context, @RequestParam(value = "file_name", defaultValue = "") String fileName, @RequestPart(value = "file") MultipartFile file) throws Exception{
         logger.info("Feed upload request recieved with payload: " + file.getOriginalFilename() + " with size: " + file.getSize());
         if(StringUtils.isEmpty(fileName)) {
             fileName = file.getOriginalFilename();
