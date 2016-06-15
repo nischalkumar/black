@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.wizindia.black.common.Enums.Role;
 import org.wizindia.black.common.FinalFilePathContext;
 import org.wizindia.black.common.request.ContextRequest;
+import org.wizindia.black.common.response.FileDownloadResponse;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.domain.Context;
 import org.wizindia.black.domain.Feed;
@@ -113,8 +114,7 @@ public class FileService {
 
 
 
-    public File getFile(final String encryptedFinalContext) throws IOException {
-
+    public FileDownloadResponse getFile(final String encryptedFinalContext) throws IOException {
         FileSystem fileSystem = fileSystemFactory.getFileSystem();
         FinalFilePathContext finalFilePathContext = fileSystemUtils.getOriginalContextFromEncryptedOriginalContext(encryptedFinalContext);
         Context context = feedWorker.getContext(finalFilePathContext.getContextId());
@@ -128,7 +128,7 @@ public class FileService {
         Feed feed = feedWorker.getFeed(finalFilePathContext.getFeedId());
         File file = (File)fileSystem.get(context, feed, false).get(0);
         enrichFileDetails(finalFilePathContext, file);
-        return file;
+        return new FileDownloadResponse(feed, file);
     }
 
     private void enrichFileDetails(FinalFilePathContext finalFilePathContext, File file) {

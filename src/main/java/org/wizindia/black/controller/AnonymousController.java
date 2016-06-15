@@ -16,8 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
+import org.wizindia.black.common.response.FileDownloadResponse;
 import org.wizindia.black.common.response.FileUploadResponse;
 import org.wizindia.black.service.FileService;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by nischal.k on 07/01/16.
@@ -33,9 +36,12 @@ public class AnonymousController {
 
     @RequestMapping(value = "/file/{finalContext}", method = RequestMethod.GET,  produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public FileSystemResource getFile(@PathVariable("finalContext") String finalContext) throws Exception{
+    public FileSystemResource getFile(@PathVariable("finalContext") String finalContext, HttpServletResponse response) throws Exception{
         logger.info("Feed upload request recieved with payload: " + finalContext);
-        return new FileSystemResource(fileService.getFile(finalContext));
+        FileDownloadResponse fileDownloadResponse = fileService.getFile(finalContext);
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileDownloadResponse.getFeed().getFileName());
+        return new FileSystemResource(fileDownloadResponse.getFile());
+
     }
 
 
