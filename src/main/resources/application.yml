@@ -11,12 +11,12 @@ spring:
 spring:
     profiles: development
 server:
-    address: 127.0.0.1
+    address: 0.0.0.0
 ---
 spring:
     profiles: production
 server:
-    address: wizork.com
+    address: 0.0.0.0
 ---
 
 server:
